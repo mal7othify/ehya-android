@@ -1,0 +1,164 @@
+import com.eillia.ehya.buildsrc.Libs
+
+plugins {
+  id 'com.android.application'
+  id 'com.google.gms.google-services'
+  id 'com.google.firebase.crashlytics'
+  id 'kotlin-android'
+  id 'kotlin-kapt'
+  id 'dagger.hilt.android.plugin'
+}
+
+def keystorePropertiesFile = rootProject.file("./keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+android {
+  compileSdkVersion 31
+
+  defaultConfig {
+    applicationId "com.eillia.ehya"
+    minSdkVersion 21
+    targetSdkVersion 31
+    versionCode 26
+    versionName "2.1.2"
+
+    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+    kapt {
+      arguments {
+        arg("room.schemaLocation", "$projectDir/schemas")
+      }
+    }
+  }
+
+  signingConfigs {
+    release {
+      storeFile file(keystoreProperties['prodKeystoreFile'])
+      storePassword keystoreProperties['prodKeystorePassword']
+      keyAlias = keystoreProperties['prodKeyAlias']
+      keyPassword = keystoreProperties['prodKeyPassword']
+    }
+    debug {
+      storeFile file(keystoreProperties['debugKeystoreFile'])
+      storePassword keystoreProperties['debugKeystorePassword']
+      keyAlias = keystoreProperties['debugKeyAlias']
+      keyPassword = keystoreProperties['debugKeyPassword']
+    }
+  }
+
+  buildTypes {
+    debug {
+      signingConfig signingConfigs.debug
+    }
+    release {
+      signingConfig signingConfigs.release
+      minifyEnabled true
+      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    }
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+
+  kotlinOptions {
+    jvmTarget = '1.8'
+    useIR = true
+  }
+
+  buildFeatures {
+    compose true
+
+    // Disable unused AGP features
+    buildConfig false
+    aidl false
+    renderScript false
+    resValues false
+    shaders false
+  }
+
+  composeOptions {
+    kotlinCompilerExtensionVersion Libs.AndroidX.Compose.version
+  }
+
+  packagingOptions {
+    resources {
+      excludes += '/META-INF/{AL2.0,LGPL2.1}'
+    }
+  }
+}
+
+dependencies {
+  implementation Libs.Kotlin.stdlib
+  implementation Libs.AndroidX.coreKtx
+  implementation Libs.AndroidX.Activity.activityKtx
+
+  // ViewModel
+  implementation Libs.AndroidX.ViewModel.runtimeKtx
+  implementation Libs.AndroidX.ViewModel.viewModelKtx
+  implementation Libs.AndroidX.ViewModel.livedataKtx
+
+  // Compose
+  implementation Libs.AndroidX.Compose.runtime
+  implementation Libs.AndroidX.Compose.runtimeLivedata
+  implementation Libs.AndroidX.Compose.foundation
+  implementation Libs.AndroidX.Compose.layout
+  implementation Libs.AndroidX.Compose.material
+  implementation Libs.AndroidX.Compose.materialIconsExtended
+  implementation Libs.AndroidX.Compose.materialIconsCore
+  implementation Libs.AndroidX.Compose.ui
+  implementation Libs.AndroidX.Compose.tooling
+
+  // Compose ViewModel
+  implementation Libs.AndroidX.Activity.activityCompose
+  implementation Libs.AndroidX.Lifecycle.viewModelCompose
+
+  // Timber
+  implementation Libs.Timber.timber
+
+  // Accompanist
+  implementation Libs.Accompanist.insets
+  implementation Libs.Accompanist.systemUiController
+
+  // Room
+  implementation Libs.AndroidX.Room.roomKtx
+  implementation Libs.AndroidX.Room.runtime
+  kapt Libs.AndroidX.Room.compiler
+
+  // Dagger Hilt
+  implementation Libs.Hilt.daggerHilt
+  kapt Libs.Hilt.hiltCompiler
+  implementation Libs.Hilt.hiltViewModel
+
+  // Kotlin Coroutines
+  implementation Libs.Kotlin.Coroutines.android
+  implementation Libs.Kotlin.Coroutines.core
+
+  // WorkManager
+  implementation Libs.AndroidX.WorkManager.runtimeKtx
+
+  // Gson
+  implementation Libs.Gson.gson
+
+  // Navigation
+  implementation Libs.AndroidX.Navigation.compose
+
+  // Play
+  implementation Libs.Play.coreKtx
+
+  // Firebase
+  implementation platform(Libs.Firebase.bom)
+  implementation Libs.Firebase.fcm
+  implementation Libs.Firebase.analytics
+  implementation Libs.Firebase.crashlytics
+
+  // Testing
+  androidTestImplementation Libs.AndroidX.Test.core
+  androidTestImplementation Libs.AndroidX.Test.junitRunner
+  androidTestImplementation Libs.AndroidX.Test.junitRules
+  androidTestImplementation Libs.AndroidX.Test.extJunit
+  androidTestImplementation Libs.AndroidX.Test.extTruth
+  testImplementation Libs.JUnit.junit
+}

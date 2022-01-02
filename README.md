@@ -28,12 +28,28 @@ Available on [Google Play](https://play.google.com/store/apps/details?id=com.eil
 
 ## Screenshots
 
+<img src="/screenshots/1.jpg" width="260">&emsp;<img src="/screenshots/2.jpg" width="260">&emsp;<img src="/screenshots/3.jpg" width="260">
+
+<img src="/screenshots/4.jpg" width="260">&emsp;<img src="/screenshots/5.jpg" width="260">&emsp;<img src="/screenshots/6.jpg" width="260">
+
+## Setup
+
+1) Clone this repo.
+2) Create Firebase project and add google.services.json file to app directory.
+3) Run the app!
+
 ## Contribute
 
-### By pushing PR to this repo
+Please, feel free to contribute using the following approaches -other approaches are welcome too!
+😻-:
+
+### By pushing PRs to this repo
+
+TBA
 
 ### By joining the testers list
 
+Send your Google Play email to me at: ehyaapplication@gmail.com
 
 ## License
 

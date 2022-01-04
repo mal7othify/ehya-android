@@ -18,3 +18,4 @@ package com.eillia.ehya.helpers
 const val DATABASE_NAME = "ehya-db"
 const val SUNAN_DATA_FILENAME = "sunan.json"
 const val KEY_FILENAME = "SUNAN_DATA_FILENAME"
+const val DEFAULT_NOTIFICATION__ID = 0

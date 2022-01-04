@@ -21,6 +21,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.ehya.R
+import com.eillia.ehya.helpers.DEFAULT_NOTIFICATION__ID
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
@@ -55,10 +56,6 @@ class CloudMessaging : FirebaseMessagingService() {
         "Default"
       )
     }
-  }
-
-  companion object {
-    const val DEFAULT_NOTIFICATION__ID = 0
   }
 }
 

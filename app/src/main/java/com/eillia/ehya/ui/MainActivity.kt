@@ -43,34 +43,17 @@ import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-  private val appViewModel: AppViewModel by viewModels()
+  private val appViewModel : AppViewModel by viewModels()
 
   @OptIn(ExperimentalAnimationApi::class)
-  override fun onCreate(savedInstanceState: Bundle?) {
+  override fun onCreate(savedInstanceState : Bundle?) {
     super.onCreate(savedInstanceState)
     WindowCompat.setDecorFitsSystemWindows(window, true)
-    val pm: PackageManager = applicationContext.packageManager
-    val pkgName: String = applicationContext.packageName
-    var pkgInfo: PackageInfo? = null
-    try {
-      pkgInfo = pm.getPackageInfo(pkgName, 0)
-    } catch (e: PackageManager.NameNotFoundException) {
-      e.printStackTrace()
-    }
-    FirebaseMessaging.getInstance().token.addOnCompleteListener(
-      OnCompleteListener { task ->
-        if (!task.isSuccessful) {
-          Timber.e("FCM token failed: ${task.exception}")
-          return@OnCompleteListener
-        }
-        val token: String? = task.result
-        Timber.d("FCM token $token, ${task.exception}")
-      }
-    )
+    val pkgInfo = setupPackage()
+    setupFCM()
     setContent {
       EhyaTheme {
         ProvideWindowInsets {
@@ -97,12 +80,34 @@ class MainActivity : ComponentActivity() {
                     )
                 }
               ) {
-                Navigation(navController, appViewModel, pkgInfo!!)
+                Navigation(navController, appViewModel, pkgInfo)
               }
             }
           }
         }
       }
     }
+  }
+
+  private fun setupFCM() {
+    FirebaseMessaging.getInstance().token.addOnCompleteListener(
+      OnCompleteListener { task ->
+        if (!task.isSuccessful) {
+          return@OnCompleteListener
+        }
+        val token : String? = task.result
+      }
+    )
+  }
+
+  private fun setupPackage() : PackageInfo {
+    var pkgInfo : PackageInfo? = null
+    try {
+      pkgInfo = applicationContext.packageManager
+        .getPackageInfo(applicationContext.packageName, 0)
+    } catch (e : PackageManager.NameNotFoundException) {
+      e.printStackTrace()
+    }
+    return pkgInfo!!
   }
 }

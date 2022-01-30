@@ -30,7 +30,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -56,7 +58,7 @@ import com.ehya.R
 import com.eillia.ehya.ui.utils.Dimens
 
 @Composable
-fun InfoScreen(navController: NavController, pkgInfo: PackageInfo) {
+fun InfoScreen(navController : NavController, pkgInfo : PackageInfo) {
   val context = LocalContext.current
   Box(
     modifier = Modifier
@@ -81,7 +83,9 @@ fun InfoScreen(navController: NavController, pkgInfo: PackageInfo) {
       )
     }
     Column(
-      modifier = Modifier.fillMaxWidth(),
+      modifier = Modifier
+        .fillMaxWidth()
+        .verticalScroll(rememberScrollState()),
       horizontalAlignment = Alignment.CenterHorizontally
     ) {
       Spacer(modifier = Modifier.requiredHeight(20.dp))
@@ -114,13 +118,6 @@ fun InfoScreen(navController: NavController, pkgInfo: PackageInfo) {
         lineHeight = 1.9.em
       )
       Spacer(modifier = Modifier.requiredHeight(30.dp))
-      Text(
-        modifier = Modifier.padding(Dimens.PaddingNormal),
-        text = "للتواصل عبر تويتر: mal7othify@",
-        style = MaterialTheme.typography.body1,
-        lineHeight = 1.9.em
-      )
-      Spacer(modifier = Modifier.requiredHeight(20.dp))
       Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly,
@@ -149,10 +146,8 @@ fun InfoScreen(navController: NavController, pkgInfo: PackageInfo) {
           )
         }
       }
+      Spacer(modifier = Modifier.requiredHeight(30.dp))
+      Text(text = "إصدار البرنامج: ${pkgInfo.versionName}")
     }
-    Text(
-      text = "إصدار البرنامج: ${pkgInfo.versionName}",
-      modifier = Modifier.align(Alignment.BottomCenter)
-    )
   }
 }

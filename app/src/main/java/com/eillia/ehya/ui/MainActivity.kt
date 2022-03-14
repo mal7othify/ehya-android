@@ -76,7 +76,33 @@ class MainActivity : ComponentActivity() {
                     BottomBar(
                       navController = navController,
                       items = BottomNavItems,
-                      onItemSelected = { navController.navigate(it.route) }
+                      onItemSelected = {
+                        /*
+                  In here we have 2 approaches
+                  Either this code below which will not keep track of the backstack
+                  if you go to a route each time you switch it'll make the current page pop to the splash route
+                   * */
+                        // if the route we're going to doesn't equal itself navigate
+                        if (backStackEntry?.destination?.route != it.route)
+                          navController.navigate(it.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                              saveState = true
+                            }
+                            launchSingleTop = true
+                          }
+                      }
+                      /*
+                       The second approach which is the original code + the fix of the duplicate route
+
+                       It Will keep track of the previous route you navigated to eg..
+                        if you go page 1 then 2 then  1 then 2. it will go through them if you click the back button
+                        I don't preferred it but here's how it's gonna look
+                              onItemSelected = {
+                        // if the route we're going to doesn't equal itself navigate
+                        if (backStackEntry?.destination?.route != it.route)
+                         navController.navigate(it.route)
+                        }
+                      * */
                     )
                 }
               ) {

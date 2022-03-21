@@ -46,10 +46,10 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-  private val appViewModel : AppViewModel by viewModels()
+  private val appViewModel: AppViewModel by viewModels()
 
   @OptIn(ExperimentalAnimationApi::class)
-  override fun onCreate(savedInstanceState : Bundle?) {
+  override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     WindowCompat.setDecorFitsSystemWindows(window, true)
     val pkgInfo = setupPackage()
@@ -76,7 +76,15 @@ class MainActivity : ComponentActivity() {
                     BottomBar(
                       navController = navController,
                       items = BottomNavItems,
-                      onItemSelected = { navController.navigate(it.route) }
+                      onItemSelected = {
+                        if (backStackEntry?.destination?.route != it.route)
+                          navController.navigate(it.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                              saveState = true
+                            }
+                            launchSingleTop = true
+                          }
+                      }
                     )
                 }
               ) {
@@ -95,17 +103,17 @@ class MainActivity : ComponentActivity() {
         if (!task.isSuccessful) {
           return@OnCompleteListener
         }
-        val token : String? = task.result
+        val token: String? = task.result
       }
     )
   }
 
-  private fun setupPackage() : PackageInfo {
-    var pkgInfo : PackageInfo? = null
+  private fun setupPackage(): PackageInfo {
+    var pkgInfo: PackageInfo? = null
     try {
       pkgInfo = applicationContext.packageManager
         .getPackageInfo(applicationContext.packageName, 0)
-    } catch (e : PackageManager.NameNotFoundException) {
+    } catch (e: PackageManager.NameNotFoundException) {
       e.printStackTrace()
     }
     return pkgInfo!!

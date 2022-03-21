@@ -32,9 +32,7 @@ import com.ehya.R
 import com.eillia.ehya.model.data.entity.Sunnah
 import com.eillia.ehya.ui.components.DraggableCard
 import com.eillia.ehya.viewmodels.SwipeResult
-import kotlinx.coroutines.DelicateCoroutinesApi
 
-@OptIn(DelicateCoroutinesApi::class)
 @ExperimentalAnimationApi
 @Composable
 fun Content(

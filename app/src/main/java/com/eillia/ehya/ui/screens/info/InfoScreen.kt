@@ -15,7 +15,6 @@
  */
 package com.eillia.ehya.ui.screens.info
 
-import android.content.Intent
 import android.content.pm.PackageInfo
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -55,10 +54,11 @@ import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.ehya.R
+import com.eillia.ehya.helpers.shareApp
 import com.eillia.ehya.ui.utils.Dimens
 
 @Composable
-fun InfoScreen(navController : NavController, pkgInfo : PackageInfo) {
+fun InfoScreen(navController: NavController, pkgInfo: PackageInfo) {
   val context = LocalContext.current
   Box(
     modifier = Modifier
@@ -129,13 +129,7 @@ fun InfoScreen(navController : NavController, pkgInfo : PackageInfo) {
         )
         IconButton(
           onClick = {
-            val intent = Intent(Intent.ACTION_SEND)
-            intent.type = "text/plain"
-            intent.putExtra(
-              Intent.EXTRA_TEXT,
-              "تحميل تطبيق إحياء لاستعراض السنن المهجورة من متجر جوجل بلاي: https://play.google.com/store/apps/details?id=com.eillia.ehya \n"
-            )
-            context.startActivity(Intent.createChooser(intent, "مشاركة التطبيق"))
+            shareApp(pkgInfo.packageName, context)
           }
         ) {
           Icon(

@@ -5,14 +5,13 @@ object Versions {
 }
 
 object Libs {
-  const val androidGradlePlugin = "com.android.tools.build:gradle:7.2.0-beta01"
+  const val androidGradlePlugin = "com.android.tools.build:gradle:7.1.2"
   const val jdkDesugar = "com.android.tools:desugar_jdk_libs:1.1.5"
 
   object Accompanist {
     const val version = "0.16.0"
     const val insets = "com.google.accompanist:accompanist-insets:$version"
-    const val systemUiController =
-      "com.google.accompanist:accompanist-systemuicontroller:$version"
+    const val systemUiController = "com.google.accompanist:accompanist-systemuicontroller:$version"
   }
 
   object Kotlin {
@@ -66,8 +65,7 @@ object Libs {
 
     object Lifecycle {
       private const val version = "2.3.1"
-      const val viewModelCompose =
-        "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07"
+      const val viewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07"
     }
 
     object Room {

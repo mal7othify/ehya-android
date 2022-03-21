@@ -24,11 +24,11 @@ import com.eillia.ehya.model.data.entity.Interaction
 import com.eillia.ehya.model.data.entity.Sunnah
 import com.eillia.ehya.model.repository.RepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import javax.inject.Inject
 
 @HiltViewModel
 class AppViewModel @Inject constructor(

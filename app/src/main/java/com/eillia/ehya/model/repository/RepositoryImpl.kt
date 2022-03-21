@@ -19,11 +19,11 @@ import com.eillia.ehya.model.data.dao.InteractionDao
 import com.eillia.ehya.model.data.dao.SunnahDao
 import com.eillia.ehya.model.data.entity.Interaction
 import com.eillia.ehya.model.data.entity.Sunnah
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor(
   private val sunnahDao: SunnahDao,

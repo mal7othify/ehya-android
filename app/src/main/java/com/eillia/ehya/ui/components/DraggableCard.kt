@@ -33,8 +33,8 @@ import androidx.compose.ui.unit.dp
 import com.eillia.ehya.model.data.entity.Sunnah
 import com.eillia.ehya.ui.theme.BottomSheetShape
 import com.eillia.ehya.viewmodels.SwipeResult
-import kotlinx.coroutines.launch
 import kotlin.math.abs
+import kotlinx.coroutines.launch
 
 /*
 * The reference for this code is Compose Cook Book repository

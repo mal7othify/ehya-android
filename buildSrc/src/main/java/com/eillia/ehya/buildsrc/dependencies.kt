@@ -50,17 +50,17 @@ object Libs {
         get() = "https://androidx.dev/snapshots/builds/$snapshot/artifacts/repository/"
 
       const val runtime = "androidx.compose.runtime:runtime:$version"
-      const val foundation = "androidx.compose.foundation:foundation:${version}"
-      const val layout = "androidx.compose.foundation:foundation-layout:${version}"
+      const val foundation = "androidx.compose.foundation:foundation:$version"
+      const val layout = "androidx.compose.foundation:foundation-layout:$version"
 
-      const val ui = "androidx.compose.ui:ui:${version}"
-      const val material = "androidx.compose.material:material:${version}"
+      const val ui = "androidx.compose.ui:ui:$version"
+      const val material = "androidx.compose.material:material:$version"
       const val materialIconsExtended =
-        "androidx.compose.material:material-icons-extended:${version}"
-      const val materialIconsCore = "androidx.compose.material:material-icons-core:${version}"
-      const val runtimeLivedata = "androidx.compose.runtime:runtime-livedata:${version}"
-      const val tooling = "androidx.compose.ui:ui-tooling:${version}"
-      const val navigation = "androidx.navigation:navigation-compose:${version}"
+        "androidx.compose.material:material-icons-extended:$version"
+      const val materialIconsCore = "androidx.compose.material:material-icons-core:$version"
+      const val runtimeLivedata = "androidx.compose.runtime:runtime-livedata:$version"
+      const val tooling = "androidx.compose.ui:ui-tooling:$version"
+      const val navigation = "androidx.navigation:navigation-compose:$version"
     }
 
     object Lifecycle {

@@ -21,6 +21,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -83,7 +84,9 @@ fun DraggableCard(
     }
   } else {
     val swipeResult = if (swipeX.value > 0) SwipeResult.TRY else SwipeResult.PASS
+    LaunchedEffect(key1 = true){
     onSwiped(swipeResult, item)
+    }
   }
 }
 

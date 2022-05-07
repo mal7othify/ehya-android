@@ -23,6 +23,7 @@ import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.graphicsLayer
@@ -86,6 +87,7 @@ fun DraggableCard(
   }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 fun Modifier.dragContent(
   swipeX: Animatable<Float, AnimationVector1D>,
   swipeY: Animatable<Float, AnimationVector1D>,
@@ -116,7 +118,7 @@ fun Modifier.dragContent(
         }
       }
     ) { change, dragAmount ->
-      change.consumePositionChange()
+      change.consume()
       coroutineScope.launch {
         swipeX.animateTo(swipeX.targetValue + dragAmount.x)
         swipeY.animateTo(swipeY.targetValue + dragAmount.y)

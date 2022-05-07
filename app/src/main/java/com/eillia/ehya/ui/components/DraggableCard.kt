@@ -28,7 +28,6 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.pointer.consumePositionChange
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
@@ -36,6 +35,7 @@ import com.eillia.ehya.model.data.entity.Sunnah
 import com.eillia.ehya.ui.theme.BottomSheetShape
 import com.eillia.ehya.viewmodels.SwipeResult
 import kotlin.math.abs
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 /*
@@ -52,6 +52,7 @@ fun DraggableCard(
 ) {
   val configuration = LocalConfiguration.current
   val screenWidth = configuration.screenWidthDp.dp
+  val coroutineScope = rememberCoroutineScope()
   val swipeXLeft = -(screenWidth.value * 3.2).toFloat()
   val swipeXRight = (screenWidth.value * 3.2).toFloat()
   val swipeYTop = -1000f
@@ -75,8 +76,7 @@ fun DraggableCard(
           swipeX = swipeX,
           swipeY = swipeY,
           maxX = swipeXRight,
-          onSwiped = { _, _ ->
-          }
+          coroutineScope,
         )
         .then(graphicLayer)
     ) {
@@ -84,8 +84,8 @@ fun DraggableCard(
     }
   } else {
     val swipeResult = if (swipeX.value > 0) SwipeResult.TRY else SwipeResult.PASS
-    LaunchedEffect(key1 = true){
-    onSwiped(swipeResult, item)
+    LaunchedEffect(key1 = true) {
+      onSwiped(swipeResult, item)
     }
   }
 }
@@ -95,9 +95,8 @@ fun Modifier.dragContent(
   swipeX: Animatable<Float, AnimationVector1D>,
   swipeY: Animatable<Float, AnimationVector1D>,
   maxX: Float,
-  onSwiped: (Any, Any) -> Unit
+  coroutineScope: CoroutineScope
 ): Modifier = composed {
-  val coroutineScope = rememberCoroutineScope()
   pointerInput(Unit) {
     this.detectDragGestures(
       onDragCancel = {
@@ -116,6 +115,8 @@ fun Modifier.dragContent(
               swipeX.animateTo(maxX, tween(400))
             } else {
               swipeX.animateTo(-maxX, tween(400))
+              swipeX.animateTo(0f)
+              swipeY.animateTo(0f)
             }
           }
         }

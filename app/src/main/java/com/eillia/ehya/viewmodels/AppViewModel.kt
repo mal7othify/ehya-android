@@ -78,7 +78,7 @@ class AppViewModel @Inject constructor(
   }
 
   fun onSwipe(swipeResult: SwipeResult, sunnah: Sunnah) = viewModelScope.launch {
-    if ((swipeResult == SwipeResult.PASS) && (appRepository.isPassed(sunnah.id) == null)) {
+    if (swipeResult == SwipeResult.PASS) {
       passSunnah(sunnah)
       Timber.d("swiped pass $swipeResult")
     } else if ((swipeResult == SwipeResult.TRY) && (appRepository.isTried(sunnah.id) == null)) {

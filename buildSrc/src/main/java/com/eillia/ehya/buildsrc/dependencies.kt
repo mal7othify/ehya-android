@@ -5,7 +5,7 @@ object Versions {
 }
 
 object Libs {
-  const val androidGradlePlugin = "com.android.tools.build:gradle:7.1.2"
+  const val androidGradlePlugin = "com.android.tools.build:gradle:7.3.0"
   const val jdkDesugar = "com.android.tools:desugar_jdk_libs:1.1.5"
 
   object Accompanist {
@@ -43,7 +43,7 @@ object Libs {
 
     object Compose {
       const val snapshot = ""
-      const val version = "1.1.0-rc01"
+      const val version = "1.3.0"
 
       @get:JvmStatic
       val snapshotUrl: String

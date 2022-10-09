@@ -16,6 +16,7 @@
 package com.eillia.ehya
 
 import android.app.Application
+import com.ehya.BuildConfig
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
@@ -23,6 +24,8 @@ import timber.log.Timber
 class App : Application() {
   override fun onCreate() {
     super.onCreate()
-    Timber.plant(Timber.DebugTree())
+    if (BuildConfig.DEBUG) {
+      Timber.plant(Timber.DebugTree())
+    }
   }
 }

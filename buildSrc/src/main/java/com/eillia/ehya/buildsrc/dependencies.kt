@@ -15,13 +15,13 @@ object Libs {
   }
 
   object Kotlin {
-    const val version = "1.6.0"
+    const val version = "1.7.10"
     const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
     const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
 
     object Coroutines {
-      const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2"
-      const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3"
+      const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+      const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
     }
   }
 
@@ -43,7 +43,7 @@ object Libs {
 
     object Compose {
       const val snapshot = ""
-      const val version = "1.3.0"
+      const val version = "1.3.0-rc01"
 
       @get:JvmStatic
       val snapshotUrl: String
@@ -61,6 +61,7 @@ object Libs {
       const val runtimeLivedata = "androidx.compose.runtime:runtime-livedata:$version"
       const val tooling = "androidx.compose.ui:ui-tooling:$version"
       const val navigation = "androidx.navigation:navigation-compose:$version"
+      const val hiltNavigation = "androidx.hilt:hilt-navigation-compose:1.0.0"
     }
 
     object Lifecycle {
@@ -69,7 +70,7 @@ object Libs {
     }
 
     object Room {
-      private const val version = "2.4.0"
+      private const val version = "2.5.0-beta01"
       private const val viewModelCompose = ""
       const val roomKtx = "androidx.room:room-ktx:$version"
       const val runtime = "androidx.room:room-runtime:$version"
@@ -123,7 +124,7 @@ object Libs {
   }
 
   object Firebase {
-    private const val gmsPluginVersion = "4.3.10"
+    private const val gmsPluginVersion = "4.3.14"
     private const val crashlyticsPluginVersion = "2.8.1"
     private const val version = "29.0.3"
     const val gmsPlugin = "com.google.gms:google-services:$gmsPluginVersion"

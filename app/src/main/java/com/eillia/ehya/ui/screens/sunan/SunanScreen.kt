@@ -26,17 +26,20 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.eillia.ehya.viewmodels.AppViewModel
 
 @Composable
-fun SunanScreen(appViewModel: AppViewModel) {
-  val sunan = appViewModel.sunan
+fun SunanScreen(appViewModel: AppViewModel = hiltViewModel()) {
+  val sunan by appViewModel.sunanFlow.collectAsState(listOf())
   val listState = rememberLazyListState()
 
-  if (!sunan.isEmpty()) {
+  if (sunan.isNotEmpty()) {
     LazyColumn(
       state = listState,
       modifier = Modifier

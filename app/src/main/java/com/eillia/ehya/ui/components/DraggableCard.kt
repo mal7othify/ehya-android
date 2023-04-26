@@ -115,8 +115,6 @@ fun Modifier.dragContent(
               swipeX.animateTo(maxX, tween(400))
             } else {
               swipeX.animateTo(-maxX, tween(400))
-              swipeX.animateTo(0f)
-              swipeY.animateTo(0f)
             }
           }
         }

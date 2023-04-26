@@ -19,6 +19,7 @@ import com.eillia.ehya.model.data.dao.InteractionDao
 import com.eillia.ehya.model.data.dao.SunnahDao
 import com.eillia.ehya.model.data.entity.Interaction
 import com.eillia.ehya.model.data.entity.Sunnah
+import com.eillia.ehya.viewmodels.SwipeResult
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -39,6 +40,16 @@ class RepositoryImpl @Inject constructor(
   }
 
   override fun getAllSunan(): Flow<List<Sunnah>> = sunnahDao.getAllSunan()
+  override suspend fun getSunanCount(): Int = sunnahDao.getSunanCount()
+
+  override suspend fun getSunnah(id: Int): Sunnah? = sunnahDao.getSunnah(id)
+
+  override suspend fun updateSunnah(sunnah: Sunnah) = sunnahDao.updateSunnah(sunnah)
+  override suspend fun getAllSwipedSunan(swipeResult: SwipeResult): List<Sunnah> =
+    sunnahDao.getAllSwipedSunan(swipeResult)
+
+  override suspend fun getAllSwipedSunanCount(swipeResult: SwipeResult): Int =
+    sunnahDao.getAllSwipedSunanCount(swipeResult)
 
   override suspend fun insertInteraction(interaction: Interaction) {
     interactionDao.insertInteraction(interaction)

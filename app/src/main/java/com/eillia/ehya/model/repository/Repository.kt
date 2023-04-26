@@ -17,11 +17,17 @@ package com.eillia.ehya.model.repository
 
 import com.eillia.ehya.model.data.entity.Interaction
 import com.eillia.ehya.model.data.entity.Sunnah
+import com.eillia.ehya.viewmodels.SwipeResult
 import kotlinx.coroutines.flow.Flow
 
 interface Repository {
   suspend fun insertSunan(sunan: List<Sunnah>)
   fun getAllSunan(): Flow<List<Sunnah>>
+  suspend fun getSunanCount(): Int
+  suspend fun getSunnah(id: Int): Sunnah?
+  suspend fun updateSunnah(sunnah: Sunnah)
+  suspend fun getAllSwipedSunan(swipeResult: SwipeResult): List<Sunnah>
+  suspend fun getAllSwipedSunanCount(swipeResult: SwipeResult): Int
 
   suspend fun insertInteraction(interaction: Interaction)
   suspend fun updateTries(isTried: Boolean, id: Int, tries: Int)

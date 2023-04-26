@@ -129,7 +129,7 @@ fun InfoScreen(navController: NavController, pkgInfo: PackageInfo) {
         )
         IconButton(
           onClick = {
-            shareApp(pkgInfo.packageName, context)
+            context.shareApp(pkgInfo.packageName)
           }
         ) {
           Icon(

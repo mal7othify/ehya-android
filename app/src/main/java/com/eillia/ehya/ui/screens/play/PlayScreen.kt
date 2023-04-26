@@ -25,12 +25,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.eillia.ehya.viewmodels.AppViewModel
 import com.eillia.ehya.viewmodels.SwipeResult
 
 @ExperimentalAnimationApi
 @Composable
-fun PlayScreen(appViewModel: AppViewModel) {
+fun PlayScreen(appViewModel: AppViewModel = hiltViewModel()) {
   val sunan = appViewModel.playSunan
   val showButton by appViewModel.showButton.observeAsState()
 

@@ -25,13 +25,11 @@ import com.eillia.ehya.ui.screens.info.InfoScreen
 import com.eillia.ehya.ui.screens.play.PlayScreen
 import com.eillia.ehya.ui.screens.splash.SplashScreen
 import com.eillia.ehya.ui.screens.sunan.SunanScreen
-import com.eillia.ehya.viewmodels.AppViewModel
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun Navigation(
   navController: NavHostController,
-  appViewModel: AppViewModel,
   pkgInfo: PackageInfo
 ) {
   NavHost(navController = navController, startDestination = Routes.Splash.route) {
@@ -39,10 +37,10 @@ fun Navigation(
       SplashScreen(navController)
     }
     composable(Routes.Play.route) {
-      PlayScreen(appViewModel)
+      PlayScreen()
     }
     composable(Routes.Sunan.route) {
-      SunanScreen(appViewModel)
+      SunanScreen()
     }
     composable(Routes.Info.route) {
       InfoScreen(navController, pkgInfo)

@@ -20,7 +20,6 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
@@ -38,7 +37,6 @@ import com.eillia.ehya.navigation.Routes
 import com.eillia.ehya.ui.components.BottomBar
 import com.eillia.ehya.ui.components.TopBar
 import com.eillia.ehya.ui.theme.EhyaTheme
-import com.eillia.ehya.viewmodels.AppViewModel
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
@@ -46,7 +44,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-  private val appViewModel: AppViewModel by viewModels()
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -87,7 +84,7 @@ class MainActivity : ComponentActivity() {
                     )
                 }
               ) {
-                Navigation(navController, appViewModel, pkgInfo)
+                Navigation(navController, pkgInfo)
               }
             }
           }

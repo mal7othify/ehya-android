@@ -40,14 +40,6 @@ subprojects {
   repositories {
     google()
     mavenCentral()
-
-    // Jetpack Compose SNAPSHOTs
-    if (!Libs.AndroidX.Compose.snapshot.isEmpty()) {
-      maven { url "https://androidx.dev/snapshots/builds/${Libs.AndroidX.Compose.snapshot}/artifacts/repository/" }
-    }
-    if (Libs.Accompanist.version.endsWith('SNAPSHOT')) {
-      maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
-    }
   }
 
   apply plugin: 'com.diffplug.spotless'
@@ -56,9 +48,34 @@ subprojects {
       target '**/*.kt'
       targetExclude("$buildDir/**/*.kt")
       targetExclude('bin/**/*.kt')
-
-      ktlint(Versions.ktlint).userData(['indent_size': '2', 'continuation_indent_size': '4'])
+      trimTrailingWhitespace()
+      ktlint(Versions.ktlint).userData(['android': 'true', 'indent_size': '2', 'continuation_indent_size': '4'])
       licenseHeaderFile rootProject.file('spotless/copyright.kt')
+    }
+    kotlinGradle {
+      target '*.gradle.kts'
+      trimTrailingWhitespace()
+      ktlint(Versions.ktlint).userData(['android': 'true', 'indent_size': '2', 'continuation_indent_size': '4'])
+      licenseHeaderFile rootProject.file('spotless/copyright.kts'), '(^(?![\\/ ]\\*).*$)'
+    }
+    format 'kts', {
+      target '**/*.kts'
+      targetExclude("$buildDir/**/*.kts")
+      licenseHeaderFile rootProject.file('spotless/copyright.kts'), '(^(?![\\/ ]\\*).*$)'
+    }
+    format 'xml', {
+      target '**/*.xml'
+      targetExclude("$buildDir/**/*.xml")
+      licenseHeaderFile rootProject.file('spotless/copyright.xml'), '(<[^!?])'
+    }
+    format 'misc', {
+      // define the files to apply `misc` to
+      target '*.gradle', '*.md', '.gitignore'
+
+      // define the steps to apply to those files
+      trimTrailingWhitespace()
+      indentWithTabs(2)
+      endWithNewline()
     }
   }
 

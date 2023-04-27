@@ -3,12 +3,12 @@ root = true
 [*]
 indent_size = 2
 tab_width = 2
-max_line_length = 100
 end_of_line = lf
 charset = utf-8
 indent_style = space
 trim_trailing_whitespace = true
 insert_final_newline = true
+disabled_rules = max_line_length
 ij_formatter_off_tag = @formatter:off
 ij_formatter_on_tag = @formatter:on
 ij_formatter_tags_enabled = false
@@ -16,6 +16,7 @@ ij_smart_tabs = false
 ij_wrap_on_typing = false
 
 [{*.gradle.kts,*.kt,*.kts,*.main.kts}]
+ktlint_code_style = ktlint_official
 ij_continuation_indent_size = 2
 ij_kotlin_imports_layout = *
 ij_kotlin_align_in_columns_case_branch = false
@@ -95,6 +96,7 @@ ij_kotlin_while_on_new_line = false
 ij_kotlin_wrap_elvis_expressions = 1
 ij_kotlin_wrap_expression_body_functions = 0
 ij_kotlin_wrap_first_method_in_call_chain = false
+max_line_length = off
 
 [{*.har,*.json}]
 ij_json_keep_blank_lines_in_code = 0

@@ -88,10 +88,7 @@ class AppViewModel @Inject constructor(
     val isPassed = swipeResult == SwipeResult.PASS
     updateInteractions(sunnah, swipeResult, isTried, isPassed)
 
-    if (isTried) {
-      currentSunanSegment.remove(sunnah)
-    }
-
+    currentSunanSegment.remove(sunnah)
     if (currentSunanSegment.size > 0) {
       val shuffledSunan = shuffleSunan(currentSunanSegment)
       currentSunanSegmentFlow.emit(shuffledSunan.toMutableList())

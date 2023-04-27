@@ -68,6 +68,7 @@ fun PlayScreen(appViewModel: AppViewModel = hiltViewModel()) {
           passSunnah = { onSwipeEvent = SwipeEvent(SwipeResult.PASS, it) },
           onSwipe = { swipe: SwipeResult, sunnah ->
             onSwipeEvent = SwipeEvent(swipe, sunnah)
+            Timber.e("Content -> ${onSwipeEvent.swipeResult}, ${onSwipeEvent.sunnah}")
           },
           playAgain = { appViewModel.playAgain() }
         )

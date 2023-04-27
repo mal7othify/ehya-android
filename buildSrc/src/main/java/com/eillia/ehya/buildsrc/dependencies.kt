@@ -66,7 +66,7 @@ object Libs {
 
     object Lifecycle {
       private const val version = "2.3.1"
-      const val viewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07"
+      const val viewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
     }
 
     object Room {

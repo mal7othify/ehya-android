@@ -15,22 +15,27 @@
  */
 package com.eillia.ehya.ui
 
-import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
+import androidx.compose.material.ripple.LocalRippleTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.core.view.WindowCompat
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.eillia.ehya.helpers.NoRippleTheme
+import com.eillia.ehya.helpers.setupFCM
+import com.eillia.ehya.navigation.BottomNavItem
 import com.eillia.ehya.navigation.BottomNavItems
 import com.eillia.ehya.navigation.Navigation
 import com.eillia.ehya.navigation.Routes
@@ -38,8 +43,6 @@ import com.eillia.ehya.ui.components.BottomBar
 import com.eillia.ehya.ui.components.TopBar
 import com.eillia.ehya.ui.theme.EhyaTheme
 import com.google.accompanist.insets.ProvideWindowInsets
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -48,7 +51,6 @@ class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     WindowCompat.setDecorFitsSystemWindows(window, true)
-    val pkgInfo = setupPackage()
     setupFCM()
     setContent {
       EhyaTheme {
@@ -57,34 +59,23 @@ class MainActivity : ComponentActivity() {
             Surface(color = MaterialTheme.colors.primary) {
               val navController = rememberNavController()
               val backStackEntry by navController.currentBackStackEntryAsState()
-              val isInfoScreen =
-                backStackEntry?.destination?.route == Routes.Info.route
-              val isSplashScreen =
-                backStackEntry?.destination?.route == Routes.Splash.route
+              val isInfoScreen = backStackEntry?.destination?.route == Routes.Info.route
+              val isSplashScreen = backStackEntry?.destination?.route == Routes.Splash.route
               Scaffold(
-                topBar = {
-                  if (!isInfoScreen && !isSplashScreen) TopBar(
-                    navController
-                  )
-                },
+                topBar = { DrawTopAppBar(!isInfoScreen && !isSplashScreen, navController) },
                 bottomBar = {
-                  if (!isInfoScreen && !isSplashScreen)
+                  if (!isInfoScreen && !isSplashScreen) {
                     BottomBar(
                       navController = navController,
                       items = BottomNavItems,
-                      onItemSelected = {
-                        if (backStackEntry?.destination?.route != it.route)
-                          navController.navigate(it.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                              saveState = true
-                            }
-                            launchSingleTop = true
-                          }
+                      onItemSelected = { bottomNavItem ->
+                        onBottomBarItemSelected(backStackEntry, navController, bottomNavItem)
                       }
                     )
+                  }
                 }
-              ) {
-                Navigation(navController, pkgInfo)
+              ) { _ ->
+                Navigation(navController)
               }
             }
           }
@@ -92,26 +83,30 @@ class MainActivity : ComponentActivity() {
       }
     }
   }
+}
 
-  private fun setupFCM() {
-    FirebaseMessaging.getInstance().token.addOnCompleteListener(
-      OnCompleteListener { task ->
-        if (!task.isSuccessful) {
-          return@OnCompleteListener
-        }
-        val token: String? = task.result
-      }
-    )
+@Composable
+private fun DrawTopAppBar(
+  shouldDraw: Boolean,
+  navController: NavHostController
+) {
+  if (shouldDraw) {
+    TopBar(navController)
   }
+}
 
-  private fun setupPackage(): PackageInfo {
-    var pkgInfo: PackageInfo? = null
-    try {
-      pkgInfo = applicationContext.packageManager
-        .getPackageInfo(applicationContext.packageName, 0)
-    } catch (e: PackageManager.NameNotFoundException) {
-      e.printStackTrace()
+private fun onBottomBarItemSelected(
+  backStackEntry: NavBackStackEntry?,
+  navController: NavHostController,
+  bottomNavItem: BottomNavItem
+) {
+  val isSelected = backStackEntry?.destination?.route != bottomNavItem.route
+  if (isSelected) {
+    navController.navigate(bottomNavItem.route) {
+      popUpTo(navController.graph.findStartDestination().id) {
+        saveState = true
+      }
+      launchSingleTop = true
     }
-    return pkgInfo!!
   }
 }

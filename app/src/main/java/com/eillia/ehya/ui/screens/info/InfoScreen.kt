@@ -15,7 +15,6 @@
  */
 package com.eillia.ehya.ui.screens.info
 
-import android.content.pm.PackageInfo
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -54,12 +53,14 @@ import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.ehya.R
+import com.eillia.ehya.helpers.setupPackage
 import com.eillia.ehya.helpers.shareApp
 import com.eillia.ehya.ui.utils.Dimens
 
 @Composable
-fun InfoScreen(navController: NavController, pkgInfo: PackageInfo) {
+fun InfoScreen(navController: NavController) {
   val context = LocalContext.current
+  val packageInfo = context.setupPackage()
   Box(
     modifier = Modifier
       .fillMaxSize()
@@ -129,7 +130,7 @@ fun InfoScreen(navController: NavController, pkgInfo: PackageInfo) {
         )
         IconButton(
           onClick = {
-            context.shareApp(pkgInfo.packageName)
+            context.shareApp(packageInfo.packageName)
           }
         ) {
           Icon(
@@ -141,7 +142,7 @@ fun InfoScreen(navController: NavController, pkgInfo: PackageInfo) {
         }
       }
       Spacer(modifier = Modifier.requiredHeight(30.dp))
-      Text(text = "إصدار البرنامج: ${pkgInfo.versionName}")
+      Text(text = "إصدار البرنامج: ${packageInfo.versionName}")
     }
   }
 }

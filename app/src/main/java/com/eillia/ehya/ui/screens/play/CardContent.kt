@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 The Android Open Source Project
+ * Copyright 2022
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -121,7 +121,9 @@ fun CardContent(
     )
     Text(
       text = sunnah.category.title,
-      style = typography.body2.copy(background = MaterialTheme.colors.secondary)
+      style = typography.body2.copy(
+        background = MaterialTheme.colors.secondary
+      )
     )
     Text(
       text = sunnah.hadith,
@@ -159,7 +161,11 @@ fun CardContent(
         modifier = Modifier
           .fillMaxWidth()
           .align(Alignment.CenterHorizontally),
-        imageVector = if (expandedState) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
+        imageVector = if (expandedState) {
+          Icons.Filled.ExpandLess
+        } else {
+          Icons.Filled.ExpandMore
+        },
         contentDescription = null,
         colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface)
       )
@@ -187,7 +193,10 @@ fun CardContent(
           .padding(start = 16.dp)
           .align(Alignment.CenterStart)
       ) {
-        FloatMultiStateAnimationCircleCanvas(MaterialTheme.colors.secondary, 100f)
+        FloatMultiStateAnimationCircleCanvas(
+          MaterialTheme.colors.secondary,
+          100f
+        )
         Icon(
           imageVector = Icons.Rounded.ArrowForward,
           tint = Color.Green,
@@ -220,7 +229,10 @@ fun CardContent(
           .padding(end = 16.dp)
           .align(Alignment.CenterEnd)
       ) {
-        FloatMultiStateAnimationCircleCanvas(MaterialTheme.colors.secondary, 100f)
+        FloatMultiStateAnimationCircleCanvas(
+          MaterialTheme.colors.secondary,
+          100f
+        )
         Icon(
           imageVector = Icons.Rounded.ArrowBack,
           tint = Color.Red,

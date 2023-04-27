@@ -21,7 +21,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.eillia.ehya.model.data.entity.Sunnah
-import com.eillia.ehya.viewmodels.SwipeResult
+import com.eillia.ehya.model.data.item.SwipeResult
 import kotlinx.coroutines.flow.Flow
 
 @Dao

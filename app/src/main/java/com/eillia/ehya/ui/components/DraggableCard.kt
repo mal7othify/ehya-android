@@ -32,8 +32,8 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import com.eillia.ehya.model.data.entity.Sunnah
+import com.eillia.ehya.model.data.item.SwipeResult
 import com.eillia.ehya.ui.theme.BottomSheetShape
-import com.eillia.ehya.viewmodels.SwipeResult
 import kotlin.math.abs
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

@@ -19,7 +19,7 @@ import com.eillia.ehya.model.data.dao.InteractionDao
 import com.eillia.ehya.model.data.dao.SunnahDao
 import com.eillia.ehya.model.data.entity.Interaction
 import com.eillia.ehya.model.data.entity.Sunnah
-import com.eillia.ehya.viewmodels.SwipeResult
+import com.eillia.ehya.model.data.item.SwipeResult
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

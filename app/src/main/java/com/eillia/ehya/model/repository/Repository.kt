@@ -17,7 +17,7 @@ package com.eillia.ehya.model.repository
 
 import com.eillia.ehya.model.data.entity.Interaction
 import com.eillia.ehya.model.data.entity.Sunnah
-import com.eillia.ehya.viewmodels.SwipeResult
+import com.eillia.ehya.model.data.item.SwipeResult
 import kotlinx.coroutines.flow.Flow
 
 interface Repository {

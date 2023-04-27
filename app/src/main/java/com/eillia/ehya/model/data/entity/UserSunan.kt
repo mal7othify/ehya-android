@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 The Android Open Source Project
+ * Copyright 2022
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,9 +22,13 @@ import androidx.room.Relation
  * This class captures the relationship between a [Sunnah] and a user's [Interaction], which is
  * used by Room to fetch the related entities.
  */
+
 data class UserSunan(
   @Embedded
   val sunnah: Sunnah,
-  @Relation(parentColumn = "id", entityColumn = "sunnahId")
+  @Relation(
+    parentColumn = "id",
+    entityColumn = "sunnahId"
+  )
   val userInteractions: List<Interaction> = emptyList()
 )

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 The Android Open Source Project
+ * Copyright 2022
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,17 +62,28 @@ class MainActivity : ComponentActivity() {
             Surface(color = MaterialTheme.colors.primary) {
               val navController = rememberNavController()
               val backStackEntry by navController.currentBackStackEntryAsState()
-              val isInfoScreen = backStackEntry?.destination?.route == Routes.Info.route
-              val isSplashScreen = backStackEntry?.destination?.route == Routes.Splash.route
+              val isInfoScreen =
+                backStackEntry?.destination?.route == Routes.Info.route
+              val isSplashScreen =
+                backStackEntry?.destination?.route == Routes.Splash.route
               Scaffold(
-                topBar = { DrawTopAppBar(!isInfoScreen && !isSplashScreen, navController) },
+                topBar = {
+                  DrawTopAppBar(
+                    !isInfoScreen && !isSplashScreen,
+                    navController
+                  )
+                },
                 bottomBar = {
                   if (!isInfoScreen && !isSplashScreen) {
                     BottomBar(
                       navController = navController,
                       items = BottomNavItems,
                       onItemSelected = { bottomNavItem ->
-                        onBottomBarItemSelected(backStackEntry, navController, bottomNavItem)
+                        onBottomBarItemSelected(
+                          backStackEntry,
+                          navController,
+                          bottomNavItem
+                        )
                       }
                     )
                   }
@@ -103,10 +114,13 @@ private fun onBottomBarItemSelected(
   navController: NavHostController,
   bottomNavItem: BottomNavItem
 ) {
-  val isSelected = backStackEntry?.destination?.route != bottomNavItem.route
+  val isSelected =
+    backStackEntry?.destination?.route != bottomNavItem.route
   if (isSelected) {
     navController.navigate(bottomNavItem.route) {
-      popUpTo(navController.graph.findStartDestination().id) {
+      popUpTo(
+        navController.graph.findStartDestination().id
+      ) {
         saveState = true
       }
       launchSingleTop = true

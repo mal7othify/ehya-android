@@ -30,8 +30,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ehya.R
 import com.eillia.ehya.model.data.entity.Sunnah
+import com.eillia.ehya.model.data.item.SwipeResult
 import com.eillia.ehya.ui.components.DraggableCard
-import com.eillia.ehya.viewmodels.SwipeResult
 
 @ExperimentalAnimationApi
 @Composable
@@ -41,21 +41,17 @@ fun Content(
   passSunnah: (Sunnah) -> Unit,
   onSwipe: (SwipeResult, Sunnah) -> Unit,
   playAgain: () -> Unit,
-  showButton: Boolean
 ) {
   Box(
     modifier = Modifier.fillMaxSize(),
     contentAlignment = Alignment.Center
   ) {
-    if (showButton) {
-      Button(
-        colors = ButtonDefaults.buttonColors(MaterialTheme.colors.secondary),
-        onClick = { playAgain() }
-      ) {
-        Text(text = stringResource(id = R.string.playagain))
-      }
+    Button(
+      colors = ButtonDefaults.buttonColors(MaterialTheme.colors.secondary),
+      onClick = { playAgain() }
+    ) {
+      Text(text = stringResource(id = R.string.playagain))
     }
-
     sunan.forEachIndexed { index, sunnah ->
       DraggableCard(
         item = sunnah,

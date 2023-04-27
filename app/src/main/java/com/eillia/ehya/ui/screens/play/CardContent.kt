@@ -243,6 +243,7 @@ fun CardContent(
 @Composable
 fun CardContentPreview() {
   val sunnah = Sunnah(
+    0,
     "إخبار من تحبهم أنك تحبهم",
     "طرق الباب ثلاث مرات",
     Category("عام", "general", ""),

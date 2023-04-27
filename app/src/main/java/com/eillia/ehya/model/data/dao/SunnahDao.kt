@@ -19,7 +19,9 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.eillia.ehya.model.data.entity.Sunnah
+import com.eillia.ehya.model.data.item.SwipeResult
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -31,8 +33,20 @@ interface SunnahDao {
   @Query("SELECT * FROM sunnahTable")
   fun getAllSunan(): Flow<List<Sunnah>>
 
+  @Query("SELECT  COUNT(id) FROM sunnahTable")
+  fun getSunanCount(): Int
+
   @Query("SELECT * FROM sunnahTable WHERE id = :id")
-  fun getSunnah(id: Int): Flow<List<Sunnah>>
+  fun getSunnah(id: Int): Sunnah?
+
+  @Update(onConflict = OnConflictStrategy.REPLACE)
+  suspend fun updateSunnah(sunnah: Sunnah)
+
+  @Query("SELECT * FROM sunnahTable WHERE swipeResult = (:swipeResult)")
+  suspend fun getAllSwipedSunan(swipeResult: SwipeResult): List<Sunnah>
+
+  @Query("SELECT COUNT(id) FROM sunnahTable WHERE swipeResult = (:swipeResult)")
+  suspend fun getAllSwipedSunanCount(swipeResult: SwipeResult): Int
 
   @Query("DELETE FROM sunnahTable WHERE id = :id")
   suspend fun deleteSunnah(id: Int)

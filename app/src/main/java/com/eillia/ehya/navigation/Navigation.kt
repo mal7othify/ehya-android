@@ -15,7 +15,6 @@
  */
 package com.eillia.ehya.navigation
 
-import android.content.pm.PackageInfo
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
@@ -25,27 +24,22 @@ import com.eillia.ehya.ui.screens.info.InfoScreen
 import com.eillia.ehya.ui.screens.play.PlayScreen
 import com.eillia.ehya.ui.screens.splash.SplashScreen
 import com.eillia.ehya.ui.screens.sunan.SunanScreen
-import com.eillia.ehya.viewmodels.AppViewModel
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun Navigation(
-  navController: NavHostController,
-  appViewModel: AppViewModel,
-  pkgInfo: PackageInfo
-) {
+fun Navigation(navController: NavHostController) {
   NavHost(navController = navController, startDestination = Routes.Splash.route) {
     composable(Routes.Splash.route) {
       SplashScreen(navController)
     }
     composable(Routes.Play.route) {
-      PlayScreen(appViewModel)
+      PlayScreen()
     }
     composable(Routes.Sunan.route) {
-      SunanScreen(appViewModel)
+      SunanScreen()
     }
     composable(Routes.Info.route) {
-      InfoScreen(navController, pkgInfo)
+      InfoScreen(navController)
     }
   }
 }

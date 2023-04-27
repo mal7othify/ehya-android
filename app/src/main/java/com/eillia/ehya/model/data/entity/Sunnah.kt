@@ -19,9 +19,11 @@ import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.eillia.ehya.model.data.item.SwipeResult
 
 @Entity(tableName = "sunnahTable")
 data class Sunnah(
+  @PrimaryKey var id: Int = 1,
   @ColumnInfo(name = "sunnah_title")
   val title: String,
   val quantity: String?,
@@ -29,8 +31,7 @@ data class Sunnah(
   val category: Category,
   val hadith: String,
   val strength: String,
-  val howto: String
-) {
-  @PrimaryKey(autoGenerate = true)
-  var id: Int = 1
-}
+  val howto: String,
+  @ColumnInfo(defaultValue = "NONE")
+  var swipeResult: SwipeResult = SwipeResult.NONE
+)

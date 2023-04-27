@@ -20,34 +20,55 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.eillia.ehya.model.data.item.SwipeEvent
+import com.eillia.ehya.model.data.item.SwipeResult
 import com.eillia.ehya.viewmodels.AppViewModel
-import com.eillia.ehya.viewmodels.SwipeResult
 
 @ExperimentalAnimationApi
 @Composable
-fun PlayScreen(appViewModel: AppViewModel) {
-  val sunan = appViewModel.playSunan
-  val showButton by appViewModel.showButton.observeAsState()
+fun PlayScreen(appViewModel: AppViewModel = hiltViewModel()) {
+  var onSwipeEvent by remember { mutableStateOf(SwipeEvent()) }
+  val sunan by appViewModel.currentSunanSegmentFlow.collectAsState()
+  val isLoading by appViewModel.isLoading.collectAsState()
 
-  Content(
-    sunan = sunan,
-    trySunnah = { appViewModel.trySunnah(it) },
-    passSunnah = { appViewModel.passSunnah(it) },
-    onSwipe = { swipe: SwipeResult, sunnah -> appViewModel.onSwipe(swipe, sunnah) },
-    playAgain = { appViewModel.playAgain() },
-    showButton = showButton!!
-  )
-  if (!showButton!!) {
-    Box(
-      modifier = Modifier.fillMaxSize(),
-      contentAlignment = Alignment.Center
-    ) {
-      CircularProgressIndicator(color = MaterialTheme.colors.secondary)
+  LaunchedEffect(key1 = onSwipeEvent) {
+    onSwipeEvent.sunnah?.let {
+      appViewModel.onSwipe(onSwipeEvent.swipeResult, it)
+    }
+  }
+
+  Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+    when {
+      isLoading -> {
+        CircularProgressIndicator(color = MaterialTheme.colors.secondary)
+      }
+
+      sunan.isEmpty() -> {
+        Text(text = "لا توجد سنن متاحة", color = MaterialTheme.colors.secondary)
+      }
+
+      else -> {
+        Content(
+          sunan = sunan,
+          trySunnah = { onSwipeEvent = SwipeEvent(SwipeResult.TRY, it) },
+          passSunnah = { onSwipeEvent = SwipeEvent(SwipeResult.PASS, it) },
+          onSwipe = { swipe: SwipeResult, sunnah ->
+            onSwipeEvent = SwipeEvent(swipe, sunnah)
+          },
+          playAgain = { appViewModel.playAgain() }
+        )
+      }
     }
   }
 }

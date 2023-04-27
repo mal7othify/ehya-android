@@ -55,7 +55,10 @@ class MainActivity : ComponentActivity() {
     setContent {
       EhyaTheme {
         ProvideWindowInsets {
-          CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+          CompositionLocalProvider(
+            LocalLayoutDirection provides LayoutDirection.Rtl,
+            LocalRippleTheme provides NoRippleTheme
+          ) {
             Surface(color = MaterialTheme.colors.primary) {
               val navController = rememberNavController()
               val backStackEntry by navController.currentBackStackEntryAsState()

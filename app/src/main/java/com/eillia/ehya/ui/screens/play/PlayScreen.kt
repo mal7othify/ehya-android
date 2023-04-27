@@ -34,7 +34,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.eillia.ehya.model.data.item.SwipeEvent
 import com.eillia.ehya.model.data.item.SwipeResult
 import com.eillia.ehya.viewmodels.AppViewModel
-import timber.log.Timber
 
 @ExperimentalAnimationApi
 @Composable
@@ -46,10 +45,8 @@ fun PlayScreen(appViewModel: AppViewModel = hiltViewModel()) {
   LaunchedEffect(key1 = onSwipeEvent) {
     onSwipeEvent.sunnah?.let {
       appViewModel.onSwipe(onSwipeEvent.swipeResult, it)
-      Timber.e("LaunchedEffect -> ${onSwipeEvent.swipeResult}, ${onSwipeEvent.sunnah}")
     }
   }
-  Timber.e("Inside PlayScreen -> observing sunan $sunan")
 
   Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
     when {
@@ -68,7 +65,6 @@ fun PlayScreen(appViewModel: AppViewModel = hiltViewModel()) {
           passSunnah = { onSwipeEvent = SwipeEvent(SwipeResult.PASS, it) },
           onSwipe = { swipe: SwipeResult, sunnah ->
             onSwipeEvent = SwipeEvent(swipe, sunnah)
-            Timber.e("Content -> ${onSwipeEvent.swipeResult}, ${onSwipeEvent.sunnah}")
           },
           playAgain = { appViewModel.playAgain() }
         )

@@ -9,9 +9,17 @@ plugins {
   id 'dagger.hilt.android.plugin'
 }
 
-def keystorePropertiesFile = rootProject.file("./keystore.properties")
 def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+def keystorePropertiesFilePath = System.getenv('EHYA_KEY_STORE_PROPERTIES')
+if (keystorePropertiesFilePath) {
+  def keystorePropertiesFile = file(keystorePropertiesFilePath)
+  keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+} else {
+  // Load default debug properties
+  def debugKeystorePropertiesFile = rootProject.file("./debug-keystore.properties")
+  keystoreProperties.load(new FileInputStream(debugKeystorePropertiesFile))
+}
 
 android {
   compileSdkVersion 33
@@ -34,16 +42,16 @@ android {
 
   signingConfigs {
     release {
-      storeFile file(keystoreProperties['prodKeystoreFile'])
-      storePassword keystoreProperties['prodKeystorePassword']
-      keyAlias = keystoreProperties['prodKeyAlias']
-      keyPassword = keystoreProperties['prodKeyPassword']
+      storeFile file(keystoreProperties['keystoreFile'])
+      storePassword keystoreProperties['keystorePassword']
+      keyAlias = keystoreProperties['keyAlias']
+      keyPassword = keystoreProperties['keyPassword']
     }
     debug {
-      storeFile file(keystoreProperties['debugKeystoreFile'])
-      storePassword keystoreProperties['debugKeystorePassword']
-      keyAlias = keystoreProperties['debugKeyAlias']
-      keyPassword = keystoreProperties['debugKeyPassword']
+      storeFile file(keystoreProperties['keystoreFile'])
+      storePassword keystoreProperties['keystorePassword']
+      keyAlias = keystoreProperties['keyAlias']
+      keyPassword = keystoreProperties['keyPassword']
     }
   }
 

@@ -33,8 +33,15 @@ interface SunnahDao {
   @Query("SELECT * FROM sunnahTable")
   fun getAllSunan(): Flow<List<Sunnah>>
 
-  @Query("SELECT  COUNT(id) FROM sunnahTable")
+  @Query("SELECT COUNT(id) FROM sunnahTable")
   fun getSunanCount(): Int
+
+  @Query(
+    "SELECT * FROM sunnahTable JOIN interactionTable " +
+      "WHERE sunnahTable.id = interactionTable.sunnahId " +
+      "AND isFavorite = 1"
+  )
+  fun getFavSunan(): Flow<List<Sunnah>>
 
   @Query("SELECT * FROM sunnahTable WHERE id = :id")
   fun getSunnah(id: Int): Sunnah?

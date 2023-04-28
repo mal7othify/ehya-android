@@ -40,4 +40,7 @@ interface InteractionDao {
 
   @Query("SELECT isPassed FROM interactionTable WHERE sunnahId = :id")
   suspend fun isPassed(id: Int): Boolean
+
+  @Query("SELECT isFavorite FROM interactionTable WHERE sunnahId = :id")
+  suspend fun isFavorite(id: Int): Boolean
 }

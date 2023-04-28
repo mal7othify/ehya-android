@@ -51,6 +51,8 @@ class RepositoryImpl @Inject constructor(
   override suspend fun getAllSwipedSunanCount(swipeResult: SwipeResult): Int =
     sunnahDao.getAllSwipedSunanCount(swipeResult)
 
+  override fun getFavSunan(): Flow<List<Sunnah>> = sunnahDao.getFavSunan()
+
   override suspend fun insertInteraction(interaction: Interaction) {
     interactionDao.insertInteraction(interaction)
   }
@@ -65,8 +67,8 @@ class RepositoryImpl @Inject constructor(
       interactionDao.updatePasses(isPassed, id, passes)
     }
 
-  override suspend fun updateFavorite(isTried: Boolean, id: Int) = withContext(Dispatchers.IO) {
-    interactionDao.updateFavorite(isTried, id)
+  override suspend fun updateFavorite(isFav: Boolean, id: Int) = withContext(Dispatchers.IO) {
+    interactionDao.updateFavorite(isFav, id)
   }
 
   override suspend fun isTried(id: Int): Boolean {
@@ -75,5 +77,9 @@ class RepositoryImpl @Inject constructor(
 
   override suspend fun isPassed(id: Int): Boolean {
     return interactionDao.isPassed(id)
+  }
+
+  override suspend fun isFavorite(id: Int): Boolean {
+    return interactionDao.isFavorite(id)
   }
 }

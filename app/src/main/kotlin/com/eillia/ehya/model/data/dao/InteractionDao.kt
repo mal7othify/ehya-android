@@ -27,13 +27,24 @@ interface InteractionDao {
   suspend fun insertInteraction(interaction: Interaction)
 
   @Query("UPDATE interactionTable SET isTried=:isTried, tries=:tries WHERE sunnahId = :id")
-  suspend fun updateTries(isTried: Boolean, tries: Int, id: Int)
+  suspend fun updateTries(
+    isTried: Boolean,
+    tries: Int,
+    id: Int
+  )
 
   @Query("UPDATE interactionTable SET isPassed=:isPassed, passes=:passes WHERE sunnahId = :id")
-  suspend fun updatePasses(isPassed: Boolean, passes: Int, id: Int)
+  suspend fun updatePasses(
+    isPassed: Boolean,
+    passes: Int,
+    id: Int
+  )
 
   @Query("UPDATE interactionTable SET isFavorite=:isFavorite WHERE sunnahId = :id")
-  suspend fun updateFavorite(isFavorite: Boolean, id: Int)
+  suspend fun updateFavorite(
+    isFavorite: Boolean,
+    id: Int
+  )
 
   @Query("SELECT isTried FROM interactionTable WHERE sunnahId = :id")
   suspend fun isTried(id: Int): Boolean

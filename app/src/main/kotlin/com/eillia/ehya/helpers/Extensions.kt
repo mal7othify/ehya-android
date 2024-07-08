@@ -41,8 +41,9 @@ fun Context.shareApp(appId: String) {
 fun Context.setupPackage(): PackageInfo {
   var pkgInfo: PackageInfo? = null
   try {
-    pkgInfo = this.packageManager
-      .getPackageInfo(this.packageName, 0)
+    pkgInfo =
+      this.packageManager
+        .getPackageInfo(this.packageName, 0)
   } catch (e: PackageManager.NameNotFoundException) {
     e.printStackTrace()
   }

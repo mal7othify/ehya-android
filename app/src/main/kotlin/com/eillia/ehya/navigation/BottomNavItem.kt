@@ -23,15 +23,16 @@ data class BottomNavItem(
   val icon: ImageVector
 )
 
-val BottomNavItems = listOf(
-  BottomNavItem(
-    Routes.Play.route,
-    Routes.Play.name,
-    Routes.Play.icon!!
-  ),
-  BottomNavItem(
-    Routes.Sunan.route,
-    Routes.Sunan.name,
-    Routes.Sunan.icon!!
+val BottomNavItems =
+  listOf(
+    BottomNavItem(
+      Routes.Play.route,
+      Routes.Play.name,
+      Routes.Play.icon!!
+    ),
+    BottomNavItem(
+      Routes.Sunan.route,
+      Routes.Sunan.name,
+      Routes.Sunan.icon!!
+    )
   )
-)

@@ -62,23 +62,25 @@ fun DraggableCard(
   swipeX.updateBounds(swipeXLeft, swipeXRight)
   swipeY.updateBounds(swipeYTop, swipeYBottom)
   val rotationFraction = (swipeX.value / 60).coerceIn(-40f, 40f)
-  val graphicLayer = Modifier.graphicsLayer(
-    translationX = swipeX.value,
-    translationY = swipeY.value,
-    rotationZ = rotationFraction,
-  )
+  val graphicLayer =
+    Modifier.graphicsLayer(
+      translationX = swipeX.value,
+      translationY = swipeY.value,
+      rotationZ = rotationFraction
+    )
   if (abs(swipeX.value) < swipeXRight - 50f) {
     Card(
       elevation = 16.dp,
       shape = BottomSheetShape,
-      modifier = modifier
-        .dragContent(
-          swipeX = swipeX,
-          swipeY = swipeY,
-          maxX = swipeXRight,
-          coroutineScope,
-        )
-        .then(graphicLayer)
+      modifier =
+        modifier
+          .dragContent(
+            swipeX = swipeX,
+            swipeY = swipeY,
+            maxX = swipeXRight,
+            coroutineScope
+          )
+          .then(graphicLayer)
     ) {
       content()
     }
@@ -96,35 +98,36 @@ fun Modifier.dragContent(
   swipeY: Animatable<Float, AnimationVector1D>,
   maxX: Float,
   coroutineScope: CoroutineScope
-): Modifier = composed {
-  pointerInput(Unit) {
-    this.detectDragGestures(
-      onDragCancel = {
-        coroutineScope.launch {
-          swipeX.animateTo(0f)
-          swipeY.animateTo(0f)
-        }
-      },
-      onDragEnd = {
-        coroutineScope.launch {
-          if (abs(swipeX.targetValue) < abs(maxX) / 4) {
-            swipeX.animateTo(0f, tween(400))
-            swipeY.animateTo(0f, tween(400))
-          } else {
-            if (swipeX.targetValue > 0) {
-              swipeX.animateTo(maxX, tween(400))
+): Modifier =
+  composed {
+    pointerInput(Unit) {
+      this.detectDragGestures(
+        onDragCancel = {
+          coroutineScope.launch {
+            swipeX.animateTo(0f)
+            swipeY.animateTo(0f)
+          }
+        },
+        onDragEnd = {
+          coroutineScope.launch {
+            if (abs(swipeX.targetValue) < abs(maxX) / 4) {
+              swipeX.animateTo(0f, tween(400))
+              swipeY.animateTo(0f, tween(400))
             } else {
-              swipeX.animateTo(-maxX, tween(400))
+              if (swipeX.targetValue > 0) {
+                swipeX.animateTo(maxX, tween(400))
+              } else {
+                swipeX.animateTo(-maxX, tween(400))
+              }
             }
           }
         }
-      }
-    ) { change, dragAmount ->
-      change.consume()
-      coroutineScope.launch {
-        swipeX.animateTo(swipeX.targetValue + dragAmount.x)
-        swipeY.animateTo(swipeY.targetValue + dragAmount.y)
+      ) { change, dragAmount ->
+        change.consume()
+        coroutineScope.launch {
+          swipeX.animateTo(swipeX.targetValue + dragAmount.x)
+          swipeY.animateTo(swipeY.targetValue + dragAmount.y)
+        }
       }
     }
   }
-}

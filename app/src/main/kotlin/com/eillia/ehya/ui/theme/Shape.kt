@@ -21,22 +21,25 @@ import androidx.compose.foundation.shape.ZeroCornerSize
 import androidx.compose.material.Shapes
 import androidx.compose.ui.unit.dp
 
-val shapes = Shapes(
-  small = RoundedCornerShape(10.dp),
-  medium = RoundedCornerShape(10.dp),
-  large = RoundedCornerShape(5.dp)
-)
+val shapes =
+  Shapes(
+    small = RoundedCornerShape(10.dp),
+    medium = RoundedCornerShape(10.dp),
+    large = RoundedCornerShape(5.dp)
+  )
 
-val BottomSheetShape = RoundedCornerShape(
-  topStart = CornerSize(30.dp),
-  topEnd = CornerSize(30.dp),
-  bottomStart = ZeroCornerSize,
-  bottomEnd = ZeroCornerSize
-)
+val BottomSheetShape =
+  RoundedCornerShape(
+    topStart = CornerSize(30.dp),
+    topEnd = CornerSize(30.dp),
+    bottomStart = ZeroCornerSize,
+    bottomEnd = ZeroCornerSize
+  )
 
-val SunnahCardShape = RoundedCornerShape(
-  topStart = ZeroCornerSize,
-  topEnd = CornerSize(20.dp),
-  bottomStart = ZeroCornerSize,
-  bottomEnd = CornerSize(20.dp)
-)
+val SunnahCardShape =
+  RoundedCornerShape(
+    topStart = ZeroCornerSize,
+    topEnd = CornerSize(20.dp),
+    bottomStart = ZeroCornerSize,
+    bottomEnd = CornerSize(20.dp)
+  )

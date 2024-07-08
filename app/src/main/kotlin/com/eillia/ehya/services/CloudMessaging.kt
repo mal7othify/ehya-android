@@ -35,15 +35,17 @@ class CloudMessaging : FirebaseMessagingService() {
     val title = remoteMessage.notification?.title
     val body = remoteMessage.notification?.body
     val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-    var notificationBuilder = if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
-      NotificationCompat.Builder(applicationContext, "1")
-    } else {
-      NotificationCompat.Builder(applicationContext)
-    }
-    notificationBuilder = notificationBuilder.setSmallIcon(R.drawable.ic_logo)
-      .setContentTitle(title)
-      .setContentText(body)
-      .setAutoCancel(true)
+    var notificationBuilder =
+      if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
+        NotificationCompat.Builder(applicationContext, "1")
+      } else {
+        NotificationCompat.Builder(applicationContext)
+      }
+    notificationBuilder =
+      notificationBuilder.setSmallIcon(R.drawable.ic_logo)
+        .setContentTitle(title)
+        .setContentText(body)
+        .setAutoCancel(true)
 
     initNotificationChannel(notificationManager)
     notificationManager.notify(DEFAULT_NOTIFICATION__ID, notificationBuilder.build())
@@ -67,11 +69,12 @@ fun NotificationManager.createNotificationChannelIfNotExists(
 ) {
   var channel = this.getNotificationChannel(channelId)
   if (channel == null) {
-    channel = NotificationChannel(
-      channelId,
-      channelName,
-      importance
-    )
+    channel =
+      NotificationChannel(
+        channelId,
+        channelName,
+        importance
+      )
     this.createNotificationChannel(channel)
   }
 }

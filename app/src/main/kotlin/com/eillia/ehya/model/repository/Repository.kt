@@ -22,17 +22,39 @@ import kotlinx.coroutines.flow.Flow
 
 interface Repository {
   suspend fun insertSunan(sunan: List<Sunnah>)
+
   fun getAllSunan(): Flow<List<Sunnah>>
+
   suspend fun getSunanCount(): Int
+
   suspend fun getSunnah(id: Int): Sunnah?
+
   suspend fun updateSunnah(sunnah: Sunnah)
+
   suspend fun getAllSwipedSunan(swipeResult: SwipeResult): List<Sunnah>
+
   suspend fun getAllSwipedSunanCount(swipeResult: SwipeResult): Int
 
   suspend fun insertInteraction(interaction: Interaction)
-  suspend fun updateTries(isTried: Boolean, id: Int, tries: Int)
-  suspend fun updatePasses(isPassed: Boolean, id: Int, passes: Int)
-  suspend fun updateFavorite(isTried: Boolean, id: Int)
+
+  suspend fun updateTries(
+    isTried: Boolean,
+    id: Int,
+    tries: Int
+  )
+
+  suspend fun updatePasses(
+    isPassed: Boolean,
+    id: Int,
+    passes: Int
+  )
+
+  suspend fun updateFavorite(
+    isTried: Boolean,
+    id: Int
+  )
+
   suspend fun isTried(id: Int): Boolean
+
   suspend fun isPassed(id: Int): Boolean
 }

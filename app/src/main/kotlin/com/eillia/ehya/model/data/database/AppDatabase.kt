@@ -44,10 +44,10 @@ import com.eillia.ehya.workers.SeedDatabaseWorker
 )
 abstract class AppDatabase : RoomDatabase() {
   abstract fun sunnahDao(): SunnahDao
+
   abstract fun interactionDao(): InteractionDao
 
   companion object {
-
     @Volatile
     private var instance: AppDatabase? = null
 
@@ -63,12 +63,14 @@ abstract class AppDatabase : RoomDatabase() {
           object : RoomDatabase.Callback() {
             override fun onCreate(db: SupportSQLiteDatabase) {
               super.onCreate(db)
-              val request = OneTimeWorkRequestBuilder<SeedDatabaseWorker>()
-                .setInputData(workDataOf(KEY_FILENAME to SUNAN_DATA_FILENAME))
-                .build()
+              val request =
+                OneTimeWorkRequestBuilder<SeedDatabaseWorker>()
+                  .setInputData(workDataOf(KEY_FILENAME to SUNAN_DATA_FILENAME))
+                  .build()
               WorkManager.getInstance(context).enqueue(request)
             }
-          })
+          }
+        )
         .fallbackToDestructiveMigration()
         .build()
     }

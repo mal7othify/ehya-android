@@ -62,52 +62,58 @@ fun InfoScreen(navController: NavController) {
   val context = LocalContext.current
   val packageInfo = context.setupPackage()
   Box(
-    modifier = Modifier
-      .fillMaxSize()
-      .padding(Dimens.PaddingNormal),
+    modifier =
+      Modifier
+        .fillMaxSize()
+        .padding(Dimens.PaddingNormal)
   ) {
     Row(
-      modifier = Modifier
-        .fillMaxWidth(),
+      modifier =
+        Modifier
+          .fillMaxWidth(),
       horizontalArrangement = Arrangement.End
     ) {
       Icon(
-        modifier = Modifier
-          .size(25.dp)
-          .clip(CircleShape)
-          .clickable {
-            navController.navigateUp()
-          },
+        modifier =
+          Modifier
+            .size(25.dp)
+            .clip(CircleShape)
+            .clickable {
+              navController.navigateUp()
+            },
         imageVector = Icons.Rounded.ArrowBack,
         tint = MaterialTheme.colors.secondary,
         contentDescription = "Filter sunan"
       )
     }
     Column(
-      modifier = Modifier
-        .fillMaxWidth()
-        .verticalScroll(rememberScrollState()),
+      modifier =
+        Modifier
+          .fillMaxWidth()
+          .verticalScroll(rememberScrollState()),
       horizontalAlignment = Alignment.CenterHorizontally
     ) {
       Spacer(modifier = Modifier.requiredHeight(20.dp))
       Text(
         stringResource(id = R.string.app_name),
-        style = MaterialTheme.typography.h1.copy(
-          fontSize = 20.sp,
-          color = MaterialTheme.colors.onPrimary,
-          textAlign = TextAlign.Center,
-          fontWeight = FontWeight.Bold
-        )
+        style =
+          MaterialTheme.typography.h1.copy(
+            fontSize = 20.sp,
+            color = MaterialTheme.colors.onPrimary,
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Bold
+          )
       )
       Image(
         imageVector = ImageVector.vectorResource(id = R.drawable.ic_logo),
         modifier = Modifier.requiredSize(Dimens.ImageSize),
-        contentDescription = "Ehya logo",
+        contentDescription = "Ehya logo"
       )
       Text(
-        modifier = Modifier
-          .fillMaxWidth()
-          .padding(Dimens.PaddingNormal),
+        modifier =
+          Modifier
+            .fillMaxWidth()
+            .padding(Dimens.PaddingNormal),
         text = stringResource(id = R.string.play),
         style = MaterialTheme.typography.body1.copy(fontWeight = FontWeight.Bold),
         textAlign = TextAlign.Center

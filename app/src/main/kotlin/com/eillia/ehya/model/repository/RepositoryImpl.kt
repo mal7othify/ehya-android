@@ -26,54 +26,70 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
-class RepositoryImpl @Inject constructor(
-  private val sunnahDao: SunnahDao,
-  private val interactionDao: InteractionDao,
-) : Repository {
-
-  init {
-    Timber.d("Injection RepositoryImpl")
-  }
-
-  override suspend fun insertSunan(sunan: List<Sunnah>) = withContext(Dispatchers.IO) {
-    sunnahDao.insertSunan(sunan)
-  }
-
-  override fun getAllSunan(): Flow<List<Sunnah>> = sunnahDao.getAllSunan()
-  override suspend fun getSunanCount(): Int = sunnahDao.getSunanCount()
-
-  override suspend fun getSunnah(id: Int): Sunnah? = sunnahDao.getSunnah(id)
-
-  override suspend fun updateSunnah(sunnah: Sunnah) = sunnahDao.updateSunnah(sunnah)
-  override suspend fun getAllSwipedSunan(swipeResult: SwipeResult): List<Sunnah> =
-    sunnahDao.getAllSwipedSunan(swipeResult)
-
-  override suspend fun getAllSwipedSunanCount(swipeResult: SwipeResult): Int =
-    sunnahDao.getAllSwipedSunanCount(swipeResult)
-
-  override suspend fun insertInteraction(interaction: Interaction) {
-    interactionDao.insertInteraction(interaction)
-  }
-
-  override suspend fun updateTries(isTried: Boolean, id: Int, tries: Int) =
-    withContext(Dispatchers.IO) {
-      interactionDao.updateTries(isTried, id, tries)
+class RepositoryImpl
+  @Inject
+  constructor(
+    private val sunnahDao: SunnahDao,
+    private val interactionDao: InteractionDao
+  ) : Repository {
+    init {
+      Timber.d("Injection RepositoryImpl")
     }
 
-  override suspend fun updatePasses(isPassed: Boolean, id: Int, passes: Int) =
-    withContext(Dispatchers.IO) {
-      interactionDao.updatePasses(isPassed, id, passes)
+    override suspend fun insertSunan(sunan: List<Sunnah>) =
+      withContext(Dispatchers.IO) {
+        sunnahDao.insertSunan(sunan)
+      }
+
+    override fun getAllSunan(): Flow<List<Sunnah>> = sunnahDao.getAllSunan()
+
+    override suspend fun getSunanCount(): Int = sunnahDao.getSunanCount()
+
+    override suspend fun getSunnah(id: Int): Sunnah? = sunnahDao.getSunnah(id)
+
+    override suspend fun updateSunnah(sunnah: Sunnah) = sunnahDao.updateSunnah(sunnah)
+
+    override suspend fun getAllSwipedSunan(swipeResult: SwipeResult): List<Sunnah> =
+      sunnahDao.getAllSwipedSunan(swipeResult)
+
+    override suspend fun getAllSwipedSunanCount(swipeResult: SwipeResult): Int =
+      sunnahDao.getAllSwipedSunanCount(swipeResult)
+
+    override suspend fun insertInteraction(interaction: Interaction) {
+      interactionDao.insertInteraction(interaction)
     }
 
-  override suspend fun updateFavorite(isTried: Boolean, id: Int) = withContext(Dispatchers.IO) {
-    interactionDao.updateFavorite(isTried, id)
-  }
+    override suspend fun updateTries(
+      isTried: Boolean,
+      id: Int,
+      tries: Int
+    ) =
+      withContext(Dispatchers.IO) {
+        interactionDao.updateTries(isTried, id, tries)
+      }
 
-  override suspend fun isTried(id: Int): Boolean {
-    return interactionDao.isTried(id)
-  }
+    override suspend fun updatePasses(
+      isPassed: Boolean,
+      id: Int,
+      passes: Int
+    ) =
+      withContext(Dispatchers.IO) {
+        interactionDao.updatePasses(isPassed, id, passes)
+      }
 
-  override suspend fun isPassed(id: Int): Boolean {
-    return interactionDao.isPassed(id)
+    override suspend fun updateFavorite(
+      isTried: Boolean,
+      id: Int
+    ) =
+      withContext(Dispatchers.IO) {
+        interactionDao.updateFavorite(isTried, id)
+      }
+
+    override suspend fun isTried(id: Int): Boolean {
+      return interactionDao.isTried(id)
+    }
+
+    override suspend fun isPassed(id: Int): Boolean {
+      return interactionDao.isPassed(id)
+    }
   }
-}

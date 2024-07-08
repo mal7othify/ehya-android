@@ -26,43 +26,51 @@ import androidx.compose.ui.graphics.Color
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @SuppressLint("ConflictingOnColor")
-private val DarkColorPalette = darkColors(
-  primary = blackOlive,
-  primaryVariant = blackish,
-  secondary = yellowL,
-  background = blackOlive,
-  surface = gainsboro,
-  onPrimary = gainsboro,
-  onSecondary = blackOlive,
-  onBackground = blackOlive,
-  onSurface = blackOlive,
-  onError = gainsboro
-)
+private val DarkColorPalette =
+  darkColors(
+    primary = blackOlive,
+    primaryVariant = blackish,
+    secondary = yellowL,
+    background = blackOlive,
+    surface = gainsboro,
+    onPrimary = gainsboro,
+    onSecondary = blackOlive,
+    onBackground = blackOlive,
+    onSurface = blackOlive,
+    onError = gainsboro
+  )
 
 @SuppressLint("ConflictingOnColor")
-private val LightColorPalette = lightColors(
-  primary = blackOlive,
-  primaryVariant = blackish,
-  secondary = yellowL,
-  background = blackOlive,
-  surface = gainsboro,
-  onPrimary = gainsboro,
-  onSecondary = blackOlive,
-  onBackground = blackOlive,
-  onSurface = blackOlive,
-  onError = gainsboro
-)
+private val LightColorPalette =
+  lightColors(
+    primary = blackOlive,
+    primaryVariant = blackish,
+    secondary = yellowL,
+    background = blackOlive,
+    surface = gainsboro,
+    onPrimary = gainsboro,
+    onSecondary = blackOlive,
+    onBackground = blackOlive,
+    onSurface = blackOlive,
+    onError = gainsboro
+  )
 
 @Composable
-fun EhyaTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {
+fun EhyaTheme(
+  darkTheme: Boolean = isSystemInDarkTheme(),
+  content:
+    @Composable()
+    () -> Unit
+) {
   // Remember a SystemUiController
   val systemUiController = rememberSystemUiController()
 
-  val colors = if (darkTheme) {
-    DarkColorPalette
-  } else {
-    LightColorPalette
-  }
+  val colors =
+    if (darkTheme) {
+      DarkColorPalette
+    } else {
+      LightColorPalette
+    }
 
   SideEffect {
     systemUiController.setNavigationBarColor(

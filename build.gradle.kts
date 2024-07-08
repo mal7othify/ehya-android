@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 // Lists all plugins used throughout the project
 plugins {
   alias(libs.plugins.android.application) apply false

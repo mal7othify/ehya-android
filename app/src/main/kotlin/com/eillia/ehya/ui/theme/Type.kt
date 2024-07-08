@@ -25,46 +25,54 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.ehya.R
 
-private val Tajawal = FontFamily(
-  listOf(
-    Font(R.font.tajawal_regular),
-    Font(R.font.tajawal_medium, FontWeight.W500),
-    Font(R.font.tajawal_bold, FontWeight.Bold)
+private val Tajawal =
+  FontFamily(
+    listOf(
+      Font(R.font.tajawal_regular),
+      Font(R.font.tajawal_medium, FontWeight.W500),
+      Font(R.font.tajawal_bold, FontWeight.Bold)
+    )
   )
-)
 
 // Set of Material typography styles to start with
-val typography = Typography(
-  h1 = TextStyle(
-    fontFamily = Tajawal,
-    fontWeight = FontWeight.W300,
-    textAlign = TextAlign.Center,
-    fontSize = 18.sp
-  ),
-  h2 = TextStyle(
-    fontFamily = Tajawal,
-    fontWeight = FontWeight.W500,
-    fontSize = 14.sp
-  ),
-  body1 = TextStyle(
-    fontFamily = Tajawal,
-    fontWeight = FontWeight.Normal,
-    fontSize = 16.sp,
-    textAlign = TextAlign.Justify
-  ),
-  body2 = TextStyle(
-    color = Color.DarkGray,
-    fontSize = 22.sp,
-    fontFamily = FontFamily(listOf(Font(R.font.arslan_wessam)))
-  ),
-  button = TextStyle(
-    fontFamily = Tajawal,
-    fontWeight = FontWeight.W500,
-    fontSize = 14.sp
-  ),
-  caption = TextStyle(
-    fontFamily = Tajawal,
-    fontWeight = FontWeight.Normal,
-    fontSize = 14.sp
+val typography =
+  Typography(
+    h1 =
+      TextStyle(
+        fontFamily = Tajawal,
+        fontWeight = FontWeight.W300,
+        textAlign = TextAlign.Center,
+        fontSize = 18.sp
+      ),
+    h2 =
+      TextStyle(
+        fontFamily = Tajawal,
+        fontWeight = FontWeight.W500,
+        fontSize = 14.sp
+      ),
+    body1 =
+      TextStyle(
+        fontFamily = Tajawal,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp,
+        textAlign = TextAlign.Justify
+      ),
+    body2 =
+      TextStyle(
+        color = Color.DarkGray,
+        fontSize = 22.sp,
+        fontFamily = FontFamily(listOf(Font(R.font.arslan_wessam)))
+      ),
+    button =
+      TextStyle(
+        fontFamily = Tajawal,
+        fontWeight = FontWeight.W500,
+        fontSize = 14.sp
+      ),
+    caption =
+      TextStyle(
+        fontFamily = Tajawal,
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp
+      )
   )
-)

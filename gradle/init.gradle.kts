@@ -28,7 +28,6 @@ initscript {
   }
 }
 
-
 allprojects {
   if (this == rootProject) {
     return@allprojects
@@ -40,8 +39,8 @@ allprojects {
       targetExclude("**/build/**/*.kt")
       ktlint(ktlintVersion).editorConfigOverride(
         mapOf(
-          "android" to "true",
-        ),
+          "android" to "true"
+        )
       )
       licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
     }

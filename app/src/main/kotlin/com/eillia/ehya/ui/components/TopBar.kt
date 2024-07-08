@@ -52,12 +52,13 @@ fun TopBar(navController: NavController) {
   val isSunanScreen = backStackEntry?.destination?.route == Routes.Sunan.route
   TopAppBar(
     backgroundColor = Color.Transparent,
-    elevation = 0.dp,
+    elevation = 0.dp
   ) {
     Row(
-      modifier = Modifier
-        .fillMaxWidth()
-        .padding(8.dp),
+      modifier =
+        Modifier
+          .fillMaxWidth()
+          .padding(8.dp),
       horizontalArrangement = Arrangement.SpaceBetween,
       verticalAlignment = Alignment.CenterVertically
     ) {

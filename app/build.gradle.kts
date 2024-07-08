@@ -1,5 +1,5 @@
-import java.util.Properties
 import java.io.FileInputStream
+import java.util.Properties
 
 val keystoreProperties = Properties()
 val keystorePropertiesFile = rootProject.file("./keystore.properties")
@@ -59,11 +59,12 @@ android {
   buildTypes {
     release {
       isMinifyEnabled = true
-      signingConfig = if (canSignWithKeystore) {
-        signingConfigs.named("debug").get()
-      } else {
-        signingConfigs.named("release").get()
-      }
+      signingConfig =
+        if (canSignWithKeystore) {
+          signingConfigs.named("debug").get()
+        } else {
+          signingConfigs.named("release").get()
+        }
       proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
     }
     debug {
@@ -115,13 +116,11 @@ android {
     variant.outputs
       .map { it as com.android.build.gradle.internal.api.BaseVariantOutputImpl }
       .forEach { output ->
-        val outputFileName = "ehya-${versionName}(${versionCode}).apk"
+        val outputFileName = "ehya-$versionName($versionCode).apk"
         output.outputFileName = outputFileName
       }
   }
 }
-
-
 
 dependencies {
   implementation(libs.kotlin.stdlib)

@@ -77,7 +77,7 @@ import com.eillia.ehya.ui.utils.Dimens
 fun CardContent(
   sunnah: Sunnah,
   trySunnah: (Sunnah) -> Unit,
-  passSunnah: (Sunnah) -> Unit,
+  passSunnah: (Sunnah) -> Unit
 ) {
   val scrollState = rememberScrollState(0)
   var expandedState by remember { mutableStateOf(false) }
@@ -86,19 +86,22 @@ fun CardContent(
   Column(
     verticalArrangement = Arrangement.SpaceEvenly,
     horizontalAlignment = Alignment.CenterHorizontally,
-    modifier = Modifier
-      .background(
-        brush = Brush.verticalGradient(
-          colors = listOf(
-            Color(0xFFD2AFB9),
-            Color(0xFFAAAEB3)
-          ),
-          endY = (LocalConfiguration.current.screenHeightDp.dp.value / 2)
+    modifier =
+      Modifier
+        .background(
+          brush =
+            Brush.verticalGradient(
+              colors =
+                listOf(
+                  Color(0xFFD2AFB9),
+                  Color(0xFFAAAEB3)
+                ),
+              endY = (LocalConfiguration.current.screenHeightDp.dp.value / 2)
+            )
         )
-      )
-      .padding(16.dp)
-      .padding(bottom = 30.dp)
-      .verticalScroll(scrollState)
+        .padding(16.dp)
+        .padding(bottom = 30.dp)
+        .verticalScroll(scrollState)
   ) {
     Text(
       text = sunnah.title,
@@ -113,17 +116,19 @@ fun CardContent(
     )
     Image(
       imageVector = ImageVector.vectorResource(category),
-      modifier = Modifier
-        .requiredSize(Dimens.ImageSize)
-        .padding(8.dp),
+      modifier =
+        Modifier
+          .requiredSize(Dimens.ImageSize)
+          .padding(8.dp),
       contentDescription = null,
       contentScale = ContentScale.Crop
     )
     Text(
       text = sunnah.category.title,
-      style = typography.body2.copy(
-        background = MaterialTheme.colors.secondary
-      )
+      style =
+        typography.body2.copy(
+          background = MaterialTheme.colors.secondary
+        )
     )
     Text(
       text = sunnah.hadith,
@@ -133,23 +138,25 @@ fun CardContent(
     )
     Text(
       text = sunnah.strength,
-      modifier = Modifier
-        .fillMaxWidth()
-        .wrapContentHeight(),
+      modifier =
+        Modifier
+          .fillMaxWidth()
+          .wrapContentHeight(),
       lineHeight = 1.25.em,
       style = typography.caption.copy(fontSize = 12.sp)
     )
     Column(
-      modifier = Modifier
-        .fillMaxWidth()
-        .wrapContentHeight()
-        .clip(MaterialTheme.shapes.medium)
-        .clickable(
-          onClick = {
-            expandedState = !expandedState
-          }
-        )
-        .padding(8.dp)
+      modifier =
+        Modifier
+          .fillMaxWidth()
+          .wrapContentHeight()
+          .clip(MaterialTheme.shapes.medium)
+          .clickable(
+            onClick = {
+              expandedState = !expandedState
+            }
+          )
+          .padding(8.dp)
     ) {
       Text(
         modifier = Modifier.fillMaxWidth(),
@@ -158,21 +165,23 @@ fun CardContent(
         textAlign = TextAlign.Center
       )
       Image(
-        modifier = Modifier
-          .fillMaxWidth()
-          .align(Alignment.CenterHorizontally),
-        imageVector = if (expandedState) {
-          Icons.Filled.ExpandLess
-        } else {
-          Icons.Filled.ExpandMore
-        },
+        modifier =
+          Modifier
+            .fillMaxWidth()
+            .align(Alignment.CenterHorizontally),
+        imageVector =
+          if (expandedState) {
+            Icons.Filled.ExpandLess
+          } else {
+            Icons.Filled.ExpandMore
+          },
         contentDescription = null,
         colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface)
       )
       AnimatedVisibility(
         visible = expandedState,
         enter = expandIn() + expandVertically(),
-        exit = shrinkOut() + shrinkVertically(),
+        exit = shrinkOut() + shrinkVertically()
       ) {
         Text(
           modifier = Modifier.wrapContentSize(),
@@ -183,15 +192,17 @@ fun CardContent(
       }
     }
     Box(
-      modifier = Modifier
-        .fillMaxWidth()
-        .padding(8.dp)
+      modifier =
+        Modifier
+          .fillMaxWidth()
+          .padding(8.dp)
     ) {
       IconButton(
         onClick = { trySunnah(sunnah) },
-        modifier = Modifier
-          .padding(start = 16.dp)
-          .align(Alignment.CenterStart)
+        modifier =
+          Modifier
+            .padding(start = 16.dp)
+            .align(Alignment.CenterStart)
       ) {
         FloatMultiStateAnimationCircleCanvas(
           MaterialTheme.colors.secondary,
@@ -206,9 +217,10 @@ fun CardContent(
       }
       Text(
         text = stringResource(id = com.ehya.R.string.tryit),
-        modifier = Modifier
-          .align(Alignment.TopStart)
-          .padding(start = 25.dp, bottom = 100.dp)
+        modifier =
+          Modifier
+            .align(Alignment.TopStart)
+            .padding(start = 25.dp, bottom = 100.dp)
       )
 //            IconButton(
 //                onClick = { favoriteState = !favoriteState },
@@ -225,9 +237,10 @@ fun CardContent(
 //            }
       IconButton(
         onClick = { passSunnah(sunnah) },
-        modifier = Modifier
-          .padding(end = 16.dp)
-          .align(Alignment.CenterEnd)
+        modifier =
+          Modifier
+            .padding(end = 16.dp)
+            .align(Alignment.CenterEnd)
       ) {
         FloatMultiStateAnimationCircleCanvas(
           MaterialTheme.colors.secondary,
@@ -242,9 +255,10 @@ fun CardContent(
       }
       Text(
         text = stringResource(id = com.ehya.R.string.passit),
-        modifier = Modifier
-          .align(Alignment.TopEnd)
-          .padding(end = 25.dp, bottom = 100.dp)
+        modifier =
+          Modifier
+            .align(Alignment.TopEnd)
+            .padding(end = 25.dp, bottom = 100.dp)
       )
     }
   }
@@ -254,14 +268,15 @@ fun CardContent(
 @Preview(showBackground = true)
 @Composable
 fun CardContentPreview() {
-  val sunnah = Sunnah(
-    0,
-    "إخبار من تحبهم أنك تحبهم",
-    "طرق الباب ثلاث مرات",
-    Category("عام", "general", ""),
-    "النبي -صلى الله عليه وسلم- قال: (إذا أحبَّ أحدُكم أخاهُ فليُعلمْهُ أنَّهُ يحبُّهُ).",
-    "الراوي : المقدام بن معدي كرب | المحدث : الألباني | المصدر : السلسلة الصحيحة",
-    "إخبار من تحبهم أنك تحبهم."
-  )
+  val sunnah =
+    Sunnah(
+      0,
+      "إخبار من تحبهم أنك تحبهم",
+      "طرق الباب ثلاث مرات",
+      Category("عام", "general", ""),
+      "النبي -صلى الله عليه وسلم- قال: (إذا أحبَّ أحدُكم أخاهُ فليُعلمْهُ أنَّهُ يحبُّهُ).",
+      "الراوي : المقدام بن معدي كرب | المحدث : الألباني | المصدر : السلسلة الصحيحة",
+      "إخبار من تحبهم أنك تحبهم."
+    )
   CardContent(sunnah = sunnah, trySunnah = {}, passSunnah = {})
 }

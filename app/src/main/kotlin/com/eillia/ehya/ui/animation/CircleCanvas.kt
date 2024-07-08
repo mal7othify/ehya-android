@@ -32,7 +32,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun FloatMultiStateAnimationCircleCanvas(color: Color, radiusEnd: Float) {
+fun FloatMultiStateAnimationCircleCanvas(
+  color: Color,
+  radiusEnd: Float
+) {
   val transition = rememberInfiniteTransition()
   val floatAnim by transition.animateFloat(
     initialValue = 10f,
@@ -41,24 +44,25 @@ fun FloatMultiStateAnimationCircleCanvas(color: Color, radiusEnd: Float) {
   )
 
   Canvas(modifier = Modifier.padding(16.dp)) {
-    val centerOffset = Offset(
-      10f,
-      10f
-    )
+    val centerOffset =
+      Offset(
+        10f,
+        10f
+      )
     drawCircle(
       color = color.copy(alpha = 0.8f),
       radius = floatAnim,
-      center = centerOffset,
+      center = centerOffset
     )
     drawCircle(
       color = color.copy(alpha = 0.4f),
       radius = floatAnim / 2,
-      center = centerOffset,
+      center = centerOffset
     )
     drawCircle(
       color = color.copy(alpha = 0.2f),
       radius = floatAnim / 4,
-      center = centerOffset,
+      center = centerOffset
     )
   }
   Spacer(modifier = Modifier.height(100.dp))

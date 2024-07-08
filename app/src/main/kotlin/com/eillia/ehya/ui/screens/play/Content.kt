@@ -40,7 +40,7 @@ fun Content(
   trySunnah: (Sunnah) -> Unit,
   passSunnah: (Sunnah) -> Unit,
   onSwipe: (SwipeResult, Sunnah) -> Unit,
-  playAgain: () -> Unit,
+  playAgain: () -> Unit
 ) {
   Box(
     modifier = Modifier.fillMaxSize(),
@@ -55,14 +55,15 @@ fun Content(
     sunan.forEachIndexed { index, sunnah ->
       DraggableCard(
         item = sunnah,
-        modifier = Modifier
-          .padding(
-            start = 16.dp,
-            top = 16.dp + (index).dp,
-            end = 16.dp
-          )
-          .align(Alignment.BottomCenter)
-          .fillMaxSize(),
+        modifier =
+          Modifier
+            .padding(
+              start = 16.dp,
+              top = 16.dp + (index).dp,
+              end = 16.dp
+            )
+            .align(Alignment.BottomCenter)
+            .fillMaxSize(),
         onSwiped = { swipeResult: SwipeResult, sunnah ->
           if (sunan.isNotEmpty()) {
             onSwipe(swipeResult, sunnah)
@@ -72,7 +73,7 @@ fun Content(
         CardContent(
           sunnah,
           trySunnah = { trySunnah(it) },
-          passSunnah = { passSunnah(it) },
+          passSunnah = { passSunnah(it) }
         )
       }
     }

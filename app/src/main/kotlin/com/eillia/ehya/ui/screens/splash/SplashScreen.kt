@@ -39,12 +39,13 @@ fun SplashScreen(navController: NavController) {
   LaunchedEffect(key1 = true) {
     scale.animateTo(
       targetValue = 0.7f,
-      animationSpec = tween(
-        durationMillis = 800,
-        easing = {
-          OvershootInterpolator(4f).getInterpolation(it)
-        }
-      )
+      animationSpec =
+        tween(
+          durationMillis = 800,
+          easing = {
+            OvershootInterpolator(4f).getInterpolation(it)
+          }
+        )
     )
     delay(500L)
     navController.navigate(Routes.Play.route)

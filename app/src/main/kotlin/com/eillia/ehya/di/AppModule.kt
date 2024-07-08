@@ -31,7 +31,9 @@ import javax.inject.Singleton
 object AppModule {
   @Singleton
   @Provides
-  fun providesDatabase(@ApplicationContext context: Context): AppDatabase {
+  fun providesDatabase(
+    @ApplicationContext context: Context
+  ): AppDatabase {
     return AppDatabase.getInstance(context)
   }
 

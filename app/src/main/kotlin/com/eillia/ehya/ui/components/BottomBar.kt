@@ -56,10 +56,11 @@ fun BottomBar(
         icon = {
           Column(horizontalAlignment = CenterHorizontally) {
             Icon(item.icon, contentDescription = item.name)
-            if (selected)
+            if (selected) {
               Text(item.name, textAlign = TextAlign.Center, fontSize = 12.sp)
+            }
           }
-        },
+        }
       )
     }
   }

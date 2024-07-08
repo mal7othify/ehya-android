@@ -48,29 +48,37 @@ import com.eillia.ehya.ui.theme.mauve
 import com.eillia.ehya.ui.utils.Dimens
 
 @Composable
-fun SunnahCard(title: String, quantity: String, hadith: String) {
+fun SunnahCard(
+  title: String,
+  quantity: String,
+  hadith: String
+) {
   val context = LocalContext.current
   Card(
-    modifier = Modifier
-      .padding(Dimens.PaddingSmall)
-      .fillMaxWidth()
-      .wrapContentHeight()
-      .background(Color.Transparent),
+    modifier =
+      Modifier
+        .padding(Dimens.PaddingSmall)
+        .fillMaxWidth()
+        .wrapContentHeight()
+        .background(Color.Transparent),
     shape = SunnahCardShape,
     elevation = 5.dp
   ) {
     Column(
-      modifier = Modifier
-        .background(
-          brush = Brush.horizontalGradient(
-            colors = listOf(
-              Color(0xFFAAAEB3),
-              Color(0xFFD2AFB9)
-            ),
-            endX = (LocalConfiguration.current.screenHeightDp.dp.value / 0.2f)
+      modifier =
+        Modifier
+          .background(
+            brush =
+              Brush.horizontalGradient(
+                colors =
+                  listOf(
+                    Color(0xFFAAAEB3),
+                    Color(0xFFD2AFB9)
+                  ),
+                endX = (LocalConfiguration.current.screenHeightDp.dp.value / 0.2f)
+              )
           )
-        )
-        .padding(Dimens.PaddingNormal)
+          .padding(Dimens.PaddingNormal)
     ) {
       Row(
         modifier = Modifier.fillMaxWidth(),
@@ -79,13 +87,14 @@ fun SunnahCard(title: String, quantity: String, hadith: String) {
       ) {
         Text(
           title,
-          style = MaterialTheme.typography.h1.copy(
-            fontWeight = FontWeight.Bold,
-            color = mauve,
-            fontSize = 16.sp,
-            textAlign = TextAlign.Right,
-            lineHeight = 1.30.em
-          )
+          style =
+            MaterialTheme.typography.h1.copy(
+              fontWeight = FontWeight.Bold,
+              color = mauve,
+              fontSize = 16.sp,
+              textAlign = TextAlign.Right,
+              lineHeight = 1.30.em
+            )
         )
         IconButton(
           onClick = {
@@ -107,16 +116,18 @@ fun SunnahCard(title: String, quantity: String, hadith: String) {
         }
       }
 
-      if (quantity != "")
+      if (quantity != "") {
         Text(
           text = quantity,
           modifier = Modifier.fillMaxWidth(),
-          style = MaterialTheme.typography.caption.copy(
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Bold,
-            lineHeight = 1.30.em
-          )
+          style =
+            MaterialTheme.typography.caption.copy(
+              textAlign = TextAlign.Center,
+              fontWeight = FontWeight.Bold,
+              lineHeight = 1.30.em
+            )
         )
+      }
       Text(hadith, style = MaterialTheme.typography.body1, lineHeight = 1.25.em)
     }
   }

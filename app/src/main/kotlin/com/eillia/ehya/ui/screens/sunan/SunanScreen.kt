@@ -42,9 +42,10 @@ fun SunanScreen(appViewModel: AppViewModel = hiltViewModel()) {
   if (sunan.isNotEmpty()) {
     LazyColumn(
       state = listState,
-      modifier = Modifier
-        .fillMaxWidth()
-        .padding(bottom = 55.dp),
+      modifier =
+        Modifier
+          .fillMaxWidth()
+          .padding(bottom = 55.dp),
       contentPadding = PaddingValues(8.dp)
     ) {
       items(sunan) { sunnah ->

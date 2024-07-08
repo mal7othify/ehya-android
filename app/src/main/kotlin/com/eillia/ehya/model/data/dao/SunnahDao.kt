@@ -26,7 +26,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface SunnahDao {
-
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   suspend fun insertSunan(sunan: List<Sunnah>)
 

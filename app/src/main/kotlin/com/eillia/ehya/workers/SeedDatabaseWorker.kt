@@ -34,31 +34,31 @@ class SeedDatabaseWorker(
   context: Context,
   workerParams: WorkerParameters
 ) : CoroutineWorker(context, workerParams) {
-
-  override suspend fun doWork(): Result = coroutineScope {
-    withContext(Dispatchers.IO) {
-      try {
-        val filename = inputData.getString(KEY_FILENAME)
-        if (filename != null) {
-          applicationContext.assets.open(filename).use { inputStream ->
-            JsonReader(inputStream.reader()).use { jsonReader ->
-              val sunnahType = object : TypeToken<List<Sunnah>>() {}.type
-              val sunan: List<Sunnah> =
-                Gson().fromJson<List<Sunnah>?>(jsonReader, sunnahType)
-              AppDatabase.getInstance(applicationContext).sunnahDao()
-                .insertSunan(sunan)
-              Timber.d("Seeding database is successful")
-              Result.success()
+  override suspend fun doWork(): Result =
+    coroutineScope {
+      withContext(Dispatchers.IO) {
+        try {
+          val filename = inputData.getString(KEY_FILENAME)
+          if (filename != null) {
+            applicationContext.assets.open(filename).use { inputStream ->
+              JsonReader(inputStream.reader()).use { jsonReader ->
+                val sunnahType = object : TypeToken<List<Sunnah>>() {}.type
+                val sunan: List<Sunnah> =
+                  Gson().fromJson<List<Sunnah>?>(jsonReader, sunnahType)
+                AppDatabase.getInstance(applicationContext).sunnahDao()
+                  .insertSunan(sunan)
+                Timber.d("Seeding database is successful")
+                Result.success()
+              }
             }
+          } else {
+            Timber.e("Error seeding database - no valid filename")
+            Result.failure()
           }
-        } else {
-          Timber.e("Error seeding database - no valid filename")
+        } catch (e: Exception) {
+          Timber.e(e, "Error seeding database")
           Result.failure()
         }
-      } catch (e: Exception) {
-        Timber.e(e, "Error seeding database")
-        Result.failure()
       }
     }
-  }
 }

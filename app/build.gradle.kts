@@ -24,10 +24,10 @@ android {
   compileSdk = 35
 
   defaultConfig {
-    applicationId = "com.ehya"
+    applicationId = "com.eillia.ehya"
     minSdk = 24
     targetSdk = 35
-    versionCode = 29
+    versionCode = 30
     versionName = "2.1.5"
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

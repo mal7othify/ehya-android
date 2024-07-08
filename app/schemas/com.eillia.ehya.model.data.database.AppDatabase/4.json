@@ -6,7 +6,7 @@
     "entities": [
       {
         "tableName": "sunnahTable",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `sunnah_title` TEXT NOT NULL, `quantity` TEXT, `hadith` TEXT NOT NULL, `strength` TEXT NOT NULL, `howto` TEXT NOT NULL, `swipeResult` TEXT NOT NULL DEFAULT 'NONE', `category_title` TEXT NOT NULL, `imageId` TEXT NOT NULL, `color` TEXT, `category_id` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `sunnah_title` TEXT NOT NULL, `quantity` TEXT, `hadith` TEXT NOT NULL, `strength` TEXT NOT NULL, `howto` TEXT NOT NULL, `swipeResult` TEXT DEFAULT 'NONE', `category_title` TEXT NOT NULL, `imageId` TEXT NOT NULL, `color` TEXT, `category_id` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -48,7 +48,7 @@
             "fieldPath": "swipeResult",
             "columnName": "swipeResult",
             "affinity": "TEXT",
-            "notNull": true,
+            "notNull": false,
             "defaultValue": "'NONE'"
           },
           {

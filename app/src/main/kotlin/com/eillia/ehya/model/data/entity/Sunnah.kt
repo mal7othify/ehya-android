@@ -33,5 +33,5 @@ data class Sunnah(
   val strength: String,
   val howto: String,
   @ColumnInfo(defaultValue = "NONE")
-  var swipeResult: SwipeResult = SwipeResult.NONE
+  var swipeResult: SwipeResult? = SwipeResult.NONE
 )

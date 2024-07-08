@@ -21,12 +21,12 @@ plugins {
 
 android {
   namespace = "com.ehya"
-  compileSdk = 34
+  compileSdk = 35
 
   defaultConfig {
     applicationId = "com.ehya"
     minSdk = 24
-    targetSdk = 34
+    targetSdk = 35
     versionCode = 28
     versionName = "2.1.4"
 

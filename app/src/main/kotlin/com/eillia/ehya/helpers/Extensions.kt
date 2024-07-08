@@ -24,8 +24,6 @@ import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.ehya.R
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.messaging.FirebaseMessaging
 
 fun Context.shareApp(appId: String) {
   val intent = Intent(Intent.ACTION_SEND)
@@ -49,17 +47,6 @@ fun Context.setupPackage(): PackageInfo {
     e.printStackTrace()
   }
   return pkgInfo!!
-}
-
-fun setupFCM() {
-  FirebaseMessaging.getInstance().token.addOnCompleteListener(
-    OnCompleteListener { task ->
-      if (!task.isSuccessful) {
-        return@OnCompleteListener
-      }
-      val token: String? = task.result
-    }
-  )
 }
 
 object NoRippleTheme : RippleTheme {

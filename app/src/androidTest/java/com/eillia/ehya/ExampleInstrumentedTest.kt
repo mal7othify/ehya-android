@@ -1,5 +1,5 @@
 /*
- * Copyright 2022
+ * Copyright 2024 Maryam Alhuthayfi
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,6 +32,6 @@ class ExampleInstrumentedTest {
   fun useAppContext() {
     // Context of the app under test.
     val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-    assertEquals("com.ehya", appContext.packageName)
+    assertEquals("com.eillia.ehya", appContext.packageName)
   }
 }

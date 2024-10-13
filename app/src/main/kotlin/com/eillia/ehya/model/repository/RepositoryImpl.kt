@@ -1,5 +1,5 @@
 /*
- * Copyright 2022
+ * Copyright 2024 Maryam Alhuthayfi
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -85,11 +85,7 @@ class RepositoryImpl
         interactionDao.updateFavorite(isTried, id)
       }
 
-    override suspend fun isTried(id: Int): Boolean {
-      return interactionDao.isTried(id)
-    }
+    override suspend fun isTried(id: Int): Boolean = interactionDao.isTried(id)
 
-    override suspend fun isPassed(id: Int): Boolean {
-      return interactionDao.isPassed(id)
-    }
+    override suspend fun isPassed(id: Int): Boolean = interactionDao.isPassed(id)
   }

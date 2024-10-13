@@ -1,5 +1,5 @@
 /*
- * Copyright 2022
+ * Copyright 2024 Maryam Alhuthayfi
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,19 +33,13 @@ object AppModule {
   @Provides
   fun providesDatabase(
     @ApplicationContext context: Context
-  ): AppDatabase {
-    return AppDatabase.getInstance(context)
-  }
+  ): AppDatabase = AppDatabase.getInstance(context)
 
   @Singleton
   @Provides
-  fun provideSunnahDao(db: AppDatabase): SunnahDao {
-    return db.sunnahDao()
-  }
+  fun provideSunnahDao(db: AppDatabase): SunnahDao = db.sunnahDao()
 
   @Singleton
   @Provides
-  fun provideInteractionDao(db: AppDatabase): InteractionDao {
-    return db.interactionDao()
-  }
+  fun provideInteractionDao(db: AppDatabase): InteractionDao = db.interactionDao()
 }

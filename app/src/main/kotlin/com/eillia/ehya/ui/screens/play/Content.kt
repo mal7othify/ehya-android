@@ -1,5 +1,5 @@
 /*
- * Copyright 2022
+ * Copyright 2024 Maryam Alhuthayfi
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,8 +61,7 @@ fun Content(
               start = 16.dp,
               top = 16.dp + (index).dp,
               end = 16.dp
-            )
-            .align(Alignment.BottomCenter)
+            ).align(Alignment.BottomCenter)
             .fillMaxSize(),
         onSwiped = { swipeResult: SwipeResult, sunnah ->
           if (sunan.isNotEmpty()) {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022
+ * Copyright 2024 Maryam Alhuthayfi
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -142,7 +142,8 @@ class AppViewModel
     private fun allTriedSunan() =
       flow {
         emit(
-          appRepository.getAllSwipedSunan(SwipeResult.TRY)
+          appRepository
+            .getAllSwipedSunan(SwipeResult.TRY)
             .map { it.title }
             .sorted()
         )
@@ -151,7 +152,8 @@ class AppViewModel
     private fun allPassedSunan() =
       flow {
         emit(
-          appRepository.getAllSwipedSunan(SwipeResult.PASS)
+          appRepository
+            .getAllSwipedSunan(SwipeResult.PASS)
             .map { it.title }
             .sorted()
         )

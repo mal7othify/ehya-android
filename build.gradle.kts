@@ -1,5 +1,5 @@
 /*
- * Copyright 2022
+ * Copyright 2024 Maryam Alhuthayfi
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,4 +32,28 @@ plugins {
   alias(libs.plugins.room) apply false
   alias(libs.plugins.module.graph) apply true
   alias(libs.plugins.kotlin.android) apply false
+  alias(libs.plugins.spotless) apply false
+}
+
+allprojects {
+  // Configure Spotless for all subprojects
+  if (this == rootProject) {
+    return@allprojects
+  }
+
+  // Spotless configuration for each subproject
+  apply<com.diffplug.gradle.spotless.SpotlessPlugin>()
+
+  extensions.configure<com.diffplug.gradle.spotless.SpotlessExtension> {
+    kotlin {
+      target("**/*.kt", "**/*.kts")
+      targetExclude("**/build/**/*.kt", "**/build/**/*.kts")
+      licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
+    }
+    format("xml") {
+      target("**/*.xml")
+      targetExclude("**/build/**/*.xml")
+      licenseHeaderFile(rootProject.file("spotless/copyright.xml"), "(<[^!?])")
+    }
+  }
 }

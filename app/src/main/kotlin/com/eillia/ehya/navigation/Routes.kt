@@ -1,5 +1,5 @@
 /*
- * Copyright 2022
+ * Copyright 2024 Maryam Alhuthayfi
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,11 @@ import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.ui.graphics.vector.ImageVector
 
-sealed class Routes(val route: String, val icon: ImageVector?, val name: String) {
+sealed class Routes(
+  val route: String,
+  val icon: ImageVector?,
+  val name: String
+) {
   object Splash : Routes(route = "splash", icon = null, name = "الشعار")
 
   object Play : Routes(route = "play", icon = Icons.Rounded.PlayArrow, name = "اللعب")

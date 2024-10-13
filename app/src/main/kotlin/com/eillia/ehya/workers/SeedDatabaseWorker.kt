@@ -1,5 +1,5 @@
 /*
- * Copyright 2022
+ * Copyright 2024 Maryam Alhuthayfi
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,7 +45,9 @@ class SeedDatabaseWorker(
                 val sunnahType = object : TypeToken<List<Sunnah>>() {}.type
                 val sunan: List<Sunnah> =
                   Gson().fromJson<List<Sunnah>?>(jsonReader, sunnahType)
-                AppDatabase.getInstance(applicationContext).sunnahDao()
+                AppDatabase
+                  .getInstance(applicationContext)
+                  .sunnahDao()
                   .insertSunan(sunan)
                 Timber.d("Seeding database is successful")
                 Result.success()

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022
+ * Copyright 2024 Maryam Alhuthayfi
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,17 +26,17 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.eillia.ehya.viewmodels.AppViewModel
 
 @Composable
 fun SunanScreen(appViewModel: AppViewModel = hiltViewModel()) {
-  val sunan by appViewModel.sunanFlow.collectAsState(listOf())
+  val sunan by appViewModel.sunanFlow.collectAsStateWithLifecycle(listOf())
   val listState = rememberLazyListState()
 
   if (sunan.isNotEmpty()) {

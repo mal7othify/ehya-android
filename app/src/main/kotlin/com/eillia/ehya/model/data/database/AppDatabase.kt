@@ -1,5 +1,5 @@
 /*
- * Copyright 2022
+ * Copyright 2024 Maryam Alhuthayfi
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,14 +51,14 @@ abstract class AppDatabase : RoomDatabase() {
     @Volatile
     private var instance: AppDatabase? = null
 
-    fun getInstance(context: Context): AppDatabase {
-      return instance ?: synchronized(this) {
+    fun getInstance(context: Context): AppDatabase =
+      instance ?: synchronized(this) {
         instance ?: buildDatabase(context).also { instance = it }
       }
-    }
 
-    private fun buildDatabase(context: Context): AppDatabase {
-      return Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
+    private fun buildDatabase(context: Context): AppDatabase =
+      Room
+        .databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
         .addCallback(
           object : RoomDatabase.Callback() {
             override fun onCreate(db: SupportSQLiteDatabase) {
@@ -70,9 +70,7 @@ abstract class AppDatabase : RoomDatabase() {
               WorkManager.getInstance(context).enqueue(request)
             }
           }
-        )
-        .fallbackToDestructiveMigration()
+        ).fallbackToDestructiveMigration()
         .build()
-    }
   }
 }

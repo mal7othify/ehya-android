@@ -1,5 +1,5 @@
 /*
- * Copyright 2022
+ * Copyright 2024 Maryam Alhuthayfi
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -94,8 +95,11 @@ class MainActivity : ComponentActivity() {
                     )
                   }
                 }
-              ) { _ ->
-                Navigation(navController)
+              ) { paddingValues ->
+                Navigation(
+                  navController = navController,
+                  modifier = Modifier.padding(paddingValues)
+                )
               }
             }
           }

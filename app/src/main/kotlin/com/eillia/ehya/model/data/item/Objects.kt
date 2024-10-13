@@ -1,5 +1,5 @@
 /*
- * Copyright 2023
+ * Copyright 2024 Maryam Alhuthayfi
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,9 @@ package com.eillia.ehya.model.data.item
 
 import com.eillia.ehya.model.data.entity.Sunnah
 
-data class SwipeEvent(val swipeResult: SwipeResult = SwipeResult.NONE, val sunnah: Sunnah? = null)
+data class SwipeEvent(
+  val swipeResult: SwipeResult = SwipeResult.NONE,
+  val sunnah: Sunnah? = null
+)
 
 enum class SwipeResult { TRY, PASS, NONE }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022
+ * Copyright 2024 Maryam Alhuthayfi
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,8 @@
 package com.eillia.ehya.ui.theme
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
@@ -40,37 +38,14 @@ private val DarkColorPalette =
     onError = gainsboro
   )
 
-@SuppressLint("ConflictingOnColor")
-private val LightColorPalette =
-  lightColors(
-    primary = blackOlive,
-    primaryVariant = blackish,
-    secondary = yellowL,
-    background = blackOlive,
-    surface = gainsboro,
-    onPrimary = gainsboro,
-    onSecondary = blackOlive,
-    onBackground = blackOlive,
-    onSurface = blackOlive,
-    onError = gainsboro
-  )
-
 @Composable
 fun EhyaTheme(
-  darkTheme: Boolean = isSystemInDarkTheme(),
   content:
     @Composable()
     () -> Unit
 ) {
   // Remember a SystemUiController
   val systemUiController = rememberSystemUiController()
-
-  val colors =
-    if (darkTheme) {
-      DarkColorPalette
-    } else {
-      LightColorPalette
-    }
 
   SideEffect {
     systemUiController.setNavigationBarColor(
@@ -81,7 +56,7 @@ fun EhyaTheme(
   }
 
   MaterialTheme(
-    colors = colors,
+    colors = DarkColorPalette,
     typography = typography,
     shapes = shapes,
     content = content

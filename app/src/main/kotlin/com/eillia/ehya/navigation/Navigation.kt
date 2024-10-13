@@ -1,5 +1,5 @@
 /*
- * Copyright 2022
+ * Copyright 2024 Maryam Alhuthayfi
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.eillia.ehya.navigation
 
 import android.os.Build
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -29,7 +29,10 @@ import com.eillia.ehya.ui.screens.sunan.SunanScreen
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun Navigation(navController: NavHostController) {
+fun Navigation(
+  navController: NavHostController,
+  modifier: Modifier = Modifier
+) {
   val shouldShowSplash = Build.VERSION.SDK_INT <= Build.VERSION_CODES.R
   val startDestination =
     if (shouldShowSplash) {

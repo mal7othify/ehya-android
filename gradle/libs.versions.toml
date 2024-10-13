@@ -188,3 +188,4 @@ module-graph = { id = "com.jraska.module.graph.assertion", version.ref = "module
 room = { id = "androidx.room", version.ref = "room" }
 secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secrets" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+hilt-android = { id = "dagger.hilt.android.plugin"}

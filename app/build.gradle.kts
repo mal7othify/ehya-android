@@ -28,10 +28,10 @@ plugins {
   alias(libs.plugins.android.application)
   alias(libs.plugins.kotlin.android)
   alias(libs.plugins.ksp)
-  alias(libs.plugins.gms) apply false
   alias(libs.plugins.firebase.crashlytics) apply false
+  alias(libs.plugins.gms) apply false
   alias(libs.plugins.compose)
-  id("dagger.hilt.android.plugin")
+  alias(libs.plugins.hilt.android)
 }
 
 android {

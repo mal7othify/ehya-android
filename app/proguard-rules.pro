@@ -19,3 +19,11 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keep class com.google.firebase.** { *; }
+-keep class com.google.android.gms.** { *; }
+# Keep the Sunnah model class and its fields
+-keep class com.eillia.ehya.model.data.entity.Sunnah { *; }
+-keep class com.eillia.ehya.model.data.entity.Category { *; }
+-keep class com.eillia.ehya.model.data.entity.Interaction { *; }
+-keep class com.eillia.ehya.model.data.entity.UserSunan { *; }

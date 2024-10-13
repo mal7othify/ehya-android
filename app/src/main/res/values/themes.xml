@@ -26,9 +26,20 @@
     the License.
     -->
   <style name="Theme.Ehya" parent="android:Theme.Material.NoActionBar">
-    <item name="android:colorPrimary">#ffffff</item>
-    <item name="android:colorAccent">#ffffff</item>
+    <item name="android:colorPrimary">@color/black_olive</item>
+    <item name="android:colorAccent">@color/yellow_light</item>
     <item name="android:statusBarColor">@android:color/transparent</item>
     <item name="android:navigationBarColor">@android:color/transparent</item>
   </style>
+
+  <style name="App.Starting.Theme" parent="Theme.SplashScreen">
+    <!--       background color of the splash screen-->
+    <item name="windowSplashScreenBackground">@color/black_olive</item>
+    <!--        icon of your splash screen or app icon-->
+    <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+    <!--        theme after splash screen is shown-->
+    <item name="postSplashScreenTheme">@style/Theme.Ehya</item>
+  </style>
+
+
 </resources>

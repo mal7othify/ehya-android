@@ -13,8 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.eillia.ehya.navigation
 
+import android.os.Build
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
@@ -28,7 +30,14 @@ import com.eillia.ehya.ui.screens.sunan.SunanScreen
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun Navigation(navController: NavHostController) {
-  NavHost(navController = navController, startDestination = Routes.Splash.route) {
+  val shouldShowSplash = Build.VERSION.SDK_INT <= Build.VERSION_CODES.R
+  val startDestination =
+    if (shouldShowSplash) {
+      Routes.Splash.route
+    } else {
+      Routes.Play.route
+    }
+  NavHost(navController = navController, startDestination = startDestination) {
     composable(Routes.Splash.route) {
       SplashScreen(navController)
     }

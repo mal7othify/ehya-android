@@ -21,10 +21,11 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.LocalRippleConfiguration
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
-import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -38,7 +39,6 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.eillia.ehya.helpers.NoRippleTheme
 import com.eillia.ehya.navigation.BottomNavItem
 import com.eillia.ehya.navigation.BottomNavItems
 import com.eillia.ehya.navigation.Navigation
@@ -51,6 +51,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+  @OptIn(ExperimentalMaterialApi::class)
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     WindowCompat.setDecorFitsSystemWindows(window, true)
@@ -60,7 +61,7 @@ class MainActivity : ComponentActivity() {
         ProvideWindowInsets {
           CompositionLocalProvider(
             LocalLayoutDirection provides LayoutDirection.Rtl,
-            LocalRippleTheme provides NoRippleTheme
+            LocalRippleConfiguration provides null
           ) {
             Surface(color = MaterialTheme.colors.primary) {
               val navController = rememberNavController()

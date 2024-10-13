@@ -19,10 +19,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
-import androidx.compose.material.ripple.RippleAlpha
-import androidx.compose.material.ripple.RippleTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import com.ehya.R
 
 fun Context.shareApp(appId: String) {
@@ -48,12 +44,4 @@ fun Context.setupPackage(): PackageInfo {
     e.printStackTrace()
   }
   return pkgInfo!!
-}
-
-object NoRippleTheme : RippleTheme {
-  @Composable
-  override fun defaultColor() = Color.Unspecified
-
-  @Composable
-  override fun rippleAlpha(): RippleAlpha = RippleAlpha(0.0f, 0.0f, 0.0f, 0.0f)
 }

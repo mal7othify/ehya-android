@@ -42,7 +42,7 @@ android {
     applicationId = "com.eillia.ehya"
     minSdk = 24
     targetSdk = 35
-    versionCode = 32
+    versionCode = 34
     versionName = "2.1.7"
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

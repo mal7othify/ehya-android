@@ -1,16 +1,22 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 2,
-    "identityHash": "cb0765874c429013c930f6e6bbb00f78",
+    "version": 1,
+    "identityHash": "e2bb69c19ca0c513326479dbe147ac22",
     "entities": [
       {
-        "tableName": "sunnahTable",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`sunnah_title` TEXT NOT NULL, `quantity` TEXT NOT NULL, `hadith` TEXT NOT NULL, `strength` TEXT NOT NULL, `howto` TEXT NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `category_title` TEXT NOT NULL, `imageId` TEXT NOT NULL, `color` TEXT NOT NULL, `category_id` INTEGER NOT NULL)",
+        "tableName": "Sunan",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `quantity` TEXT, `category_id` INTEGER NOT NULL, `hadith` TEXT NOT NULL, `strength` TEXT NOT NULL, `howto` TEXT NOT NULL, `swipeResult` TEXT DEFAULT 'NONE', FOREIGN KEY(`category_id`) REFERENCES `Categories`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
             "fieldPath": "title",
-            "columnName": "sunnah_title",
+            "columnName": "title",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -18,6 +24,12 @@
             "fieldPath": "quantity",
             "columnName": "quantity",
             "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "categoryId",
+            "columnName": "category_id",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
@@ -39,52 +51,57 @@
             "notNull": true
           },
           {
+            "fieldPath": "swipeResult",
+            "columnName": "swipeResult",
+            "affinity": "TEXT",
+            "notNull": false,
+            "defaultValue": "'NONE'"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Sunan_category_id",
+            "unique": false,
+            "columnNames": [
+              "category_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Sunan_category_id` ON `${TABLE_NAME}` (`category_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Categories",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "category_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Categories",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `imageId` TEXT, `color` TEXT)",
+        "fields": [
+          {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "category.title",
-            "columnName": "category_title",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "category.imageId",
-            "columnName": "imageId",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "category.color",
-            "columnName": "color",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "category.id",
-            "columnName": "category_id",
-            "affinity": "INTEGER",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "id"
-          ],
-          "autoGenerate": true
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
-        "tableName": "categoryTable",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`category_title` TEXT NOT NULL, `imageId` TEXT NOT NULL, `color` TEXT NOT NULL, `category_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
-        "fields": [
-          {
             "fieldPath": "title",
-            "columnName": "category_title",
+            "columnName": "title",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -92,34 +109,34 @@
             "fieldPath": "imageId",
             "columnName": "imageId",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "color",
             "columnName": "color",
             "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "id",
-            "columnName": "category_id",
-            "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           }
         ],
         "primaryKey": {
+          "autoGenerate": true,
           "columnNames": [
-            "category_id"
-          ],
-          "autoGenerate": true
+            "id"
+          ]
         },
         "indices": [],
         "foreignKeys": []
       },
       {
-        "tableName": "interactionTable",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`sunnahId` INTEGER NOT NULL, `isTried` INTEGER NOT NULL, `isPassed` INTEGER NOT NULL, `tries` INTEGER NOT NULL, `passes` INTEGER NOT NULL, `isFavorite` INTEGER NOT NULL, `interactionId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`sunnahId`) REFERENCES `sunnahTable`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "tableName": "Interaction",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`interactionId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `sunnahId` INTEGER NOT NULL, `isTried` INTEGER NOT NULL, `isPassed` INTEGER NOT NULL, `tries` INTEGER NOT NULL, `passes` INTEGER NOT NULL, `isFavorite` INTEGER NOT NULL, FOREIGN KEY(`sunnahId`) REFERENCES `Sunan`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
+          {
+            "fieldPath": "interactionId",
+            "columnName": "interactionId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
           {
             "fieldPath": "sunnahId",
             "columnName": "sunnahId",
@@ -155,35 +172,29 @@
             "columnName": "isFavorite",
             "affinity": "INTEGER",
             "notNull": true
-          },
-          {
-            "fieldPath": "interactionId",
-            "columnName": "interactionId",
-            "affinity": "INTEGER",
-            "notNull": true
           }
         ],
         "primaryKey": {
+          "autoGenerate": true,
           "columnNames": [
             "interactionId"
-          ],
-          "autoGenerate": true
+          ]
         },
         "indices": [
           {
-            "name": "index_interactionTable_sunnahId",
+            "name": "index_Interaction_sunnahId",
             "unique": false,
             "columnNames": [
               "sunnahId"
             ],
             "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_interactionTable_sunnahId` ON `${TABLE_NAME}` (`sunnahId`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Interaction_sunnahId` ON `${TABLE_NAME}` (`sunnahId`)"
           }
         ],
         "foreignKeys": [
           {
-            "table": "sunnahTable",
-            "onDelete": "NO ACTION",
+            "table": "Sunan",
+            "onDelete": "CASCADE",
             "onUpdate": "NO ACTION",
             "columns": [
               "sunnahId"
@@ -198,7 +209,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'cb0765874c429013c930f6e6bbb00f78')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e2bb69c19ca0c513326479dbe147ac22')"
     ]
   }
 }

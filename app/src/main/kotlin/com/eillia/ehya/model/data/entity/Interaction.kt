@@ -21,24 +21,24 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
-  tableName = "interactionTable",
+  tableName = "Interaction",
   foreignKeys = [
     ForeignKey(
       entity = Sunnah::class,
       parentColumns = ["id"],
-      childColumns = ["sunnahId"]
+      childColumns = ["sunnahId"],
+      onDelete = ForeignKey.CASCADE
     )
   ],
   indices = [Index("sunnahId")]
 )
 data class Interaction(
-  val sunnahId: Int,
+  @PrimaryKey(autoGenerate = true)
+  var interactionId: Int = 1,
+  val sunnahId: Int, // Foreign key to Sunnah
   var isTried: Boolean = false,
   var isPassed: Boolean = false,
   val tries: Int = 0,
   val passes: Int = 0,
   val isFavorite: Boolean = false
-) {
-  @PrimaryKey(autoGenerate = true)
-  var interactionId: Int = 1
-}
+)

@@ -31,7 +31,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
-import com.eillia.ehya.model.data.entity.Sunnah
+import com.eillia.ehya.model.data.entity.SunnahWithCategory
 import com.eillia.ehya.model.data.item.SwipeResult
 import com.eillia.ehya.ui.theme.BottomSheetShape
 import kotlin.math.abs
@@ -45,9 +45,9 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun DraggableCard(
-  item: Sunnah,
+  item: SunnahWithCategory,
   modifier: Modifier = Modifier,
-  onSwiped: (SwipeResult, Sunnah) -> Unit,
+  onSwiped: (SwipeResult, SunnahWithCategory) -> Unit,
   content: @Composable () -> Unit
 ) {
   val configuration = LocalConfiguration.current

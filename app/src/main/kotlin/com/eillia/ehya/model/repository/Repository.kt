@@ -17,6 +17,7 @@ package com.eillia.ehya.model.repository
 
 import com.eillia.ehya.model.data.entity.Interaction
 import com.eillia.ehya.model.data.entity.Sunnah
+import com.eillia.ehya.model.data.entity.SunnahWithCategory
 import com.eillia.ehya.model.data.item.SwipeResult
 import kotlinx.coroutines.flow.Flow
 
@@ -24,6 +25,8 @@ interface Repository {
   suspend fun insertSunan(sunan: List<Sunnah>)
 
   fun getAllSunan(): Flow<List<Sunnah>>
+
+  fun getAllSunanWithCategory(): Flow<List<SunnahWithCategory>>
 
   suspend fun getSunanCount(): Int
 

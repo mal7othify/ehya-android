@@ -19,14 +19,13 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "categoryTable")
+@Entity(tableName = "Categories")
 data class Category(
-  @ColumnInfo(name = "category_title")
-  val title: String,
-  val imageId: String,
-  val color: String?
-) {
   @PrimaryKey(autoGenerate = true)
-  @ColumnInfo(name = "category_id")
-  var id: Int = 0
-}
+  @ColumnInfo(name = "id")
+  var id: Int = 0,
+  @ColumnInfo(name = "title")
+  val title: String,
+  val imageId: String?,
+  val color: String?
+)

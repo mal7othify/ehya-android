@@ -16,9 +16,12 @@
 package com.eillia.ehya.di
 
 import android.content.Context
+import androidx.room.Room
+import com.eillia.ehya.helpers.DATABASE_NAME
+import com.eillia.ehya.helpers.SUNAN_DATABASE_FILE_PATH
 import com.eillia.ehya.model.data.dao.InteractionDao
 import com.eillia.ehya.model.data.dao.SunnahDao
-import com.eillia.ehya.model.data.database.AppDatabase
+import com.eillia.ehya.model.data.database.EhyaDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,13 +36,20 @@ object AppModule {
   @Provides
   fun providesDatabase(
     @ApplicationContext context: Context
-  ): AppDatabase = AppDatabase.getInstance(context)
+  ): EhyaDatabase =
+    Room
+      .databaseBuilder(
+        context,
+        EhyaDatabase::class.java,
+        DATABASE_NAME
+      ).createFromAsset(SUNAN_DATABASE_FILE_PATH)
+      .build()
 
   @Singleton
   @Provides
-  fun provideSunnahDao(db: AppDatabase): SunnahDao = db.sunnahDao()
+  fun provideSunnahDao(db: EhyaDatabase): SunnahDao = db.sunnahDao()
 
   @Singleton
   @Provides
-  fun provideInteractionDao(db: AppDatabase): InteractionDao = db.interactionDao()
+  fun provideInteractionDao(db: EhyaDatabase): InteractionDao = db.interactionDao()
 }

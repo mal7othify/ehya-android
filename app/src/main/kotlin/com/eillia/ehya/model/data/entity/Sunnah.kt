@@ -16,19 +16,31 @@
 package com.eillia.ehya.model.data.entity
 
 import androidx.room.ColumnInfo
-import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.eillia.ehya.model.data.item.SwipeResult
 
-@Entity(tableName = "sunnahTable")
+@Entity(
+  tableName = "Sunan",
+  foreignKeys = [
+    ForeignKey(
+      entity = Category::class,
+      parentColumns = ["id"],
+      childColumns = ["category_id"],
+      onDelete = ForeignKey.CASCADE
+    )
+  ],
+  indices = [Index("category_id")]
+)
 data class Sunnah(
-  @PrimaryKey var id: Int = 1,
-  @ColumnInfo(name = "sunnah_title")
+  @PrimaryKey(autoGenerate = true)
+  var id: Int = 0,
   val title: String,
   val quantity: String?,
-  @Embedded
-  val category: Category,
+  @ColumnInfo(name = "category_id")
+  val categoryId: Int,
   val hadith: String,
   val strength: String,
   val howto: String,

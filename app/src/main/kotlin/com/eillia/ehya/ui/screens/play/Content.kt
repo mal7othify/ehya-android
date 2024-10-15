@@ -29,17 +29,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ehya.R
-import com.eillia.ehya.model.data.entity.Sunnah
+import com.eillia.ehya.model.data.entity.SunnahWithCategory
 import com.eillia.ehya.model.data.item.SwipeResult
 import com.eillia.ehya.ui.components.DraggableCard
 
 @ExperimentalAnimationApi
 @Composable
 fun Content(
-  sunan: List<Sunnah>,
-  trySunnah: (Sunnah) -> Unit,
-  passSunnah: (Sunnah) -> Unit,
-  onSwipe: (SwipeResult, Sunnah) -> Unit,
+  sunan: List<SunnahWithCategory>,
+  trySunnah: (SunnahWithCategory) -> Unit,
+  passSunnah: (SunnahWithCategory) -> Unit,
+  onSwipe: (SwipeResult, SunnahWithCategory) -> Unit,
   playAgain: () -> Unit
 ) {
   Box(

@@ -16,10 +16,10 @@
 package com.eillia.ehya.helpers
 
 import com.ehya.R
-import com.eillia.ehya.model.data.entity.Sunnah
+import com.eillia.ehya.model.data.entity.SunnahWithCategory
 
-fun categories(sunnah: Sunnah): Int {
-  when (sunnah.category.imageId) {
+fun categories(sunnahWithCategory: SunnahWithCategory): Int {
+  when (sunnahWithCategory.category.imageId) {
     "wudoo" -> return R.drawable.wudoo
     "general" -> return R.drawable.general
     "pray" -> return R.drawable.pray

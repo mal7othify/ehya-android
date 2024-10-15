@@ -19,7 +19,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.eillia.ehya.helpers.SUNAN_PER_ROUND
 import com.eillia.ehya.model.data.entity.Interaction
-import com.eillia.ehya.model.data.entity.Sunnah
+import com.eillia.ehya.model.data.entity.SunnahWithCategory
 import com.eillia.ehya.model.data.item.SwipeResult
 import com.eillia.ehya.model.repository.RepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,7 +29,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @HiltViewModel
 class AppViewModel
@@ -37,11 +36,11 @@ class AppViewModel
   constructor(
     private val appRepository: RepositoryImpl
   ) : ViewModel() {
-    val sunanFlow = appRepository.getAllSunan()
+    val sunanFlow = appRepository.getAllSunanWithCategory()
 
-    private val allPlaySunan = mutableListOf<Sunnah>()
-    private val currentSunanSegment = mutableListOf<Sunnah>()
-    val currentSunanSegmentFlow = MutableStateFlow(mutableListOf<Sunnah>())
+    private val allPlaySunan = mutableListOf<SunnahWithCategory>()
+    private val currentSunanSegment = mutableListOf<SunnahWithCategory>()
+    val currentSunanSegmentFlow = MutableStateFlow(mutableListOf<SunnahWithCategory>())
     val isLoading = MutableStateFlow(false)
 
     init {
@@ -70,14 +69,12 @@ class AppViewModel
         currentSunanSegment.clear()
         val takeLastSegmentOfOriginal = allPlaySunan.takeLast(SUNAN_PER_ROUND)
         currentSunanSegment.addAll(takeLastSegmentOfOriginal)
-        Timber.e("Sunan List getCurrentSunanSegment: currentSunanSegment: $currentSunanSegment")
         if (currentSunanSegment.isNotEmpty()) {
           allPlaySunan.removeAll(currentSunanSegment)
           val ids = arrayListOf<Int>()
           allPlaySunan.forEach {
-            ids.add(it.id)
+            ids.add(it.sunnah.id)
           }
-          Timber.e("Sunan List getCurrentSunanSegment: allPlaySunan IDs: $ids")
           val shuffledSunan = shuffleSunan(currentSunanSegment)
           isLoading.emit(false)
           currentSunanSegmentFlow.emit(shuffledSunan.toMutableList())
@@ -88,7 +85,7 @@ class AppViewModel
 
     fun onSwipe(
       swipeResult: SwipeResult,
-      sunnah: Sunnah
+      sunnah: SunnahWithCategory
     ) =
       viewModelScope.launch {
         val isTried = swipeResult == SwipeResult.TRY
@@ -99,27 +96,25 @@ class AppViewModel
         if (currentSunanSegment.size > 0) {
           val shuffledSunan = shuffleSunan(currentSunanSegment)
           currentSunanSegmentFlow.emit(shuffledSunan.toMutableList())
-          Timber.e("Swiped $swipeResult, $currentSunanSegment")
         } else {
-          Timber.e("Swiped $swipeResult on last Sunnah in the current segment")
           getCurrentSunanSegment()
         }
       }
 
     private fun updateInteractions(
-      sunnah: Sunnah,
+      sunnah: SunnahWithCategory,
       swipeResult: SwipeResult,
       isTried: Boolean,
       isPassed: Boolean
     ) = viewModelScope.launch {
       val interaction =
         Interaction(
-          sunnah.id,
+          sunnahId = sunnah.sunnah.id,
           isTried = isTried,
           isPassed = isPassed
         )
       appRepository.insertInteraction(interaction)
-      appRepository.updateSunnah(sunnah.copy(swipeResult = swipeResult))
+      appRepository.updateSunnah(sunnah.sunnah.copy(swipeResult = swipeResult))
     }
 
     private fun handleEmptyState() =
@@ -131,13 +126,13 @@ class AppViewModel
     fun playAgain() =
       viewModelScope.launch {
         allPlaySunan.forEach { sunnah ->
-          appRepository.updateSunnah(sunnah.copy(swipeResult = SwipeResult.NONE))
+          appRepository.updateSunnah(sunnah.sunnah.copy(swipeResult = SwipeResult.NONE))
         }
         allPlaySunan.clear()
         getAllPlaySunan()
       }
 
-    private fun shuffleSunan(sunan: List<Sunnah>): List<Sunnah> = sunan.shuffled()
+    private fun shuffleSunan(sunan: List<SunnahWithCategory>): List<SunnahWithCategory> = sunan.shuffled()
 
     private fun allTriedSunan() =
       flow {

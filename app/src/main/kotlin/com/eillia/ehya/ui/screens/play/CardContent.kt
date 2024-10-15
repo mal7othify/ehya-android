@@ -69,15 +69,16 @@ import androidx.compose.ui.unit.sp
 import com.eillia.ehya.helpers.categories
 import com.eillia.ehya.model.data.entity.Category
 import com.eillia.ehya.model.data.entity.Sunnah
+import com.eillia.ehya.model.data.entity.SunnahWithCategory
 import com.eillia.ehya.ui.animation.FloatMultiStateAnimationCircleCanvas
 import com.eillia.ehya.ui.utils.Dimens
 
 @ExperimentalAnimationApi
 @Composable
 fun CardContent(
-  sunnah: Sunnah,
-  trySunnah: (Sunnah) -> Unit,
-  passSunnah: (Sunnah) -> Unit
+  sunnah: SunnahWithCategory,
+  trySunnah: (SunnahWithCategory) -> Unit,
+  passSunnah: (SunnahWithCategory) -> Unit
 ) {
   val scrollState = rememberScrollState(0)
   var expandedState by remember { mutableStateOf(false) }
@@ -103,12 +104,12 @@ fun CardContent(
         .verticalScroll(scrollState)
   ) {
     Text(
-      text = sunnah.title,
+      text = sunnah.sunnah.title,
       modifier = Modifier.fillMaxWidth(),
       style = typography.h1
     )
     Text(
-      text = sunnah.quantity!!,
+      text = sunnah.sunnah.quantity ?: "",
       modifier = Modifier.fillMaxWidth(),
       style = typography.caption,
       textAlign = TextAlign.Center
@@ -130,13 +131,13 @@ fun CardContent(
         )
     )
     Text(
-      text = sunnah.hadith,
+      text = sunnah.sunnah.hadith,
       modifier = Modifier.fillMaxWidth(),
       lineHeight = 1.25.em,
       style = typography.body1
     )
     Text(
-      text = sunnah.strength,
+      text = sunnah.sunnah.strength,
       modifier =
         Modifier
           .fillMaxWidth()
@@ -183,7 +184,7 @@ fun CardContent(
       ) {
         Text(
           modifier = Modifier.wrapContentSize(),
-          text = sunnah.howto,
+          text = sunnah.sunnah.howto,
           style = typography.caption,
           lineHeight = 1.em
         )
@@ -268,13 +269,22 @@ fun CardContent(
 private fun CardContentPreview() {
   val sunnah =
     Sunnah(
-      0,
-      "إخبار من تحبهم أنك تحبهم",
-      "طرق الباب ثلاث مرات",
-      Category("عام", "general", ""),
-      "النبي -صلى الله عليه وسلم- قال: (إذا أحبَّ أحدُكم أخاهُ فليُعلمْهُ أنَّهُ يحبُّهُ).",
-      "الراوي : المقدام بن معدي كرب | المحدث : الألباني | المصدر : السلسلة الصحيحة",
-      "إخبار من تحبهم أنك تحبهم."
+      id = 0,
+      title = "إخبار من تحبهم أنك تحبهم",
+      quantity = "طرق الباب ثلاث مرات",
+      categoryId = 1,
+      hadith = "النبي -صلى الله عليه وسلم- قال: (إذا أحبَّ أحدُكم أخاهُ فليُعلمْهُ أنَّهُ يحبُّهُ).",
+      strength = "الراوي : المقدام بن معدي كرب | المحدث : الألباني | المصدر : السلسلة الصحيحة",
+      howto = "إخبار من تحبهم أنك تحبهم."
     )
-  CardContent(sunnah = sunnah, trySunnah = {}, passSunnah = {})
+
+  val category =
+    Category(
+      title = "عام",
+      imageId = "general",
+      color = ""
+    )
+
+  val sunnahWithCategory = SunnahWithCategory(sunnah, category)
+  CardContent(sunnah = sunnahWithCategory, trySunnah = {}, passSunnah = {})
 }

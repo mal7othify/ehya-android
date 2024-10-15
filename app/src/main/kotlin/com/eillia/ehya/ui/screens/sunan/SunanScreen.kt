@@ -49,7 +49,11 @@ fun SunanScreen(appViewModel: AppViewModel = hiltViewModel()) {
       contentPadding = PaddingValues(8.dp)
     ) {
       items(sunan) { sunnah ->
-        SunnahCard(sunnah.title, sunnah.quantity!!, sunnah.hadith)
+        SunnahCard(
+          sunnah.sunnah.title,
+          sunnah.sunnah.quantity ?: "",
+          sunnah.sunnah.hadith
+        )
       }
     }
   } else {

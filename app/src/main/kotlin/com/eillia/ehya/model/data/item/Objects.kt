@@ -15,11 +15,11 @@
  */
 package com.eillia.ehya.model.data.item
 
-import com.eillia.ehya.model.data.entity.Sunnah
+import com.eillia.ehya.model.data.entity.SunnahWithCategory
 
 data class SwipeEvent(
   val swipeResult: SwipeResult = SwipeResult.NONE,
-  val sunnah: Sunnah? = null
+  val sunnah: SunnahWithCategory? = null
 )
 
 enum class SwipeResult { TRY, PASS, NONE }

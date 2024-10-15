@@ -20,35 +20,58 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.eillia.ehya.model.data.entity.Interaction
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface InteractionDao {
+  // Insert or replace an interaction record
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   suspend fun insertInteraction(interaction: Interaction)
 
-  @Query("UPDATE interactionTable SET isTried=:isTried, tries=:tries WHERE sunnahId = :id")
+  // Update tries for a specific sunnah interaction
+  @Query("UPDATE Interaction SET isTried=:isTried, tries=:tries WHERE sunnahId = :id")
   suspend fun updateTries(
     isTried: Boolean,
     tries: Int,
     id: Int
   )
 
-  @Query("UPDATE interactionTable SET isPassed=:isPassed, passes=:passes WHERE sunnahId = :id")
+  // Update passes for a specific sunnah interaction
+  @Query("UPDATE Interaction SET isPassed=:isPassed, passes=:passes WHERE sunnahId = :id")
   suspend fun updatePasses(
     isPassed: Boolean,
     passes: Int,
     id: Int
   )
 
-  @Query("UPDATE interactionTable SET isFavorite=:isFavorite WHERE sunnahId = :id")
+  // Update the favorite status of a sunnah interaction
+  @Query("UPDATE Interaction SET isFavorite=:isFavorite WHERE sunnahId = :id")
   suspend fun updateFavorite(
     isFavorite: Boolean,
     id: Int
   )
 
-  @Query("SELECT isTried FROM interactionTable WHERE sunnahId = :id")
+  // Check if a specific sunnah is tried
+  @Query("SELECT isTried FROM Interaction WHERE sunnahId = :id")
   suspend fun isTried(id: Int): Boolean
 
-  @Query("SELECT isPassed FROM interactionTable WHERE sunnahId = :id")
+  // Check if a specific sunnah is passed
+  @Query("SELECT isPassed FROM Interaction WHERE sunnahId = :id")
   suspend fun isPassed(id: Int): Boolean
+
+  // Get all interactions related to a specific sunnah
+  @Query("SELECT * FROM Interaction WHERE sunnahId = :id")
+  suspend fun getInteractionsBySunnahId(id: Int): List<Interaction>
+
+  // Get all interactions marked as favorite
+  @Query("SELECT * FROM Interaction WHERE isFavorite = 1")
+  fun getFavoriteInteractions(): Flow<List<Interaction>>
+
+  // Delete interaction by sunnahId
+  @Query("DELETE FROM Interaction WHERE sunnahId = :sunnahId")
+  suspend fun deleteInteraction(sunnahId: Int)
+
+  // Delete all interactions
+  @Query("DELETE FROM Interaction")
+  suspend fun deleteAllInteractions()
 }

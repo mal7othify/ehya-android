@@ -19,37 +19,66 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import com.eillia.ehya.model.data.entity.Sunnah
+import com.eillia.ehya.model.data.entity.SunnahWithCategory
 import com.eillia.ehya.model.data.item.SwipeResult
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface SunnahDao {
+  // Insert a list of Sunan, replace any conflicts
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   suspend fun insertSunan(sunan: List<Sunnah>)
 
-  @Query("SELECT * FROM sunnahTable")
+  // Insert a single Sunnah
+  @Insert(onConflict = OnConflictStrategy.REPLACE)
+  suspend fun insertSingleSunnah(sunnah: Sunnah)
+
+  // Fetch a single Sunnah with its associated Category by ID
+  @Transaction
+  @Query("SELECT * FROM Sunan WHERE id = :id") // Updated table name to "Sunan"
+  suspend fun getSunnahWithCategory(id: Int): SunnahWithCategory
+
+  // Get all Sunan with Flow to reactively update data
+  @Query("SELECT * FROM Sunan") // Updated table name to "Sunan"
   fun getAllSunan(): Flow<List<Sunnah>>
 
-  @Query("SELECT  COUNT(id) FROM sunnahTable")
-  fun getSunanCount(): Int
+  // Fetch all Sunan with their associated Category (returns a list of SunnahWithCategory)
+  @Transaction
+  @Query("SELECT * FROM Sunan") // Updated table name to "Sunan"
+  fun getAllSunanWithCategory(): Flow<List<SunnahWithCategory>>
 
-  @Query("SELECT * FROM sunnahTable WHERE id = :id")
-  fun getSunnah(id: Int): Sunnah?
+  // Get the count of all Sunan
+  @Query("SELECT COUNT(id) FROM Sunan") // Updated table name to "Sunan"
+  suspend fun getSunanCount(): Int
 
+  // Get a specific Sunnah by its ID
+  @Query("SELECT * FROM Sunan WHERE id = :id") // Updated table name to "Sunan"
+  suspend fun getSunnah(id: Int): Sunnah?
+
+  // Update a specific Sunnah
   @Update(onConflict = OnConflictStrategy.REPLACE)
   suspend fun updateSunnah(sunnah: Sunnah)
 
-  @Query("SELECT * FROM sunnahTable WHERE swipeResult = (:swipeResult)")
+  // Get all Sunan with a specific swipe result
+  @Query("SELECT * FROM Sunan WHERE swipeResult = :swipeResult") // Updated table name to "Sunan"
   suspend fun getAllSwipedSunan(swipeResult: SwipeResult): List<Sunnah>
 
-  @Query("SELECT COUNT(id) FROM sunnahTable WHERE swipeResult = (:swipeResult)")
+  // Get the count of Sunan with a specific swipe result
+  @Query("SELECT COUNT(id) FROM Sunan WHERE swipeResult = :swipeResult") // Updated table name to "Sunan"
   suspend fun getAllSwipedSunanCount(swipeResult: SwipeResult): Int
 
-  @Query("DELETE FROM sunnahTable WHERE id = :id")
+  // Get all Sunan by categoryId (find all Sunan in a specific category)
+  @Query("SELECT * FROM Sunan WHERE category_id = :categoryId") // Updated foreign key column name to "category_id"
+  fun getSunanByCategory(categoryId: Int): Flow<List<Sunnah>>
+
+  // Delete a specific Sunnah by ID
+  @Query("DELETE FROM Sunan WHERE id = :id") // Updated table name to "Sunan"
   suspend fun deleteSunnah(id: Int)
 
-  @Query("DELETE FROM sunnahTable")
-  suspend fun deleteSunan()
+  // Delete all Sunan
+  @Query("DELETE FROM Sunan") // Updated table name to "Sunan"
+  suspend fun deleteAllSunan()
 }

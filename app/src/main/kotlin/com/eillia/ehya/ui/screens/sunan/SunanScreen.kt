@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -29,13 +28,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.eillia.ehya.viewmodels.AppViewModel
 
 @Composable
-fun SunanScreen(appViewModel: AppViewModel = hiltViewModel()) {
+fun SunanScreen(
+  contentPadding: PaddingValues,
+  appViewModel: AppViewModel = hiltViewModel()
+) {
   val sunan by appViewModel.sunanFlow.collectAsStateWithLifecycle(listOf())
   val listState = rememberLazyListState()
 
@@ -44,9 +45,8 @@ fun SunanScreen(appViewModel: AppViewModel = hiltViewModel()) {
       state = listState,
       modifier =
         Modifier
-          .fillMaxWidth()
-          .padding(bottom = 55.dp),
-      contentPadding = PaddingValues(8.dp)
+          .fillMaxWidth(),
+      contentPadding = contentPadding
     ) {
       items(sunan) { sunnah ->
         SunnahCard(

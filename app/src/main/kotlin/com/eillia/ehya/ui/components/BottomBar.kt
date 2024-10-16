@@ -16,6 +16,7 @@
 package com.eillia.ehya.ui.components
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
@@ -49,6 +50,7 @@ fun BottomBar(
     items.forEach { item ->
       val selected = item.route == backStackEntry?.destination?.route
       BottomNavigationItem(
+        modifier = Modifier.navigationBarsPadding(),
         selected = selected,
         selectedContentColor = MaterialTheme.colors.secondary,
         unselectedContentColor = MaterialTheme.colors.surface,

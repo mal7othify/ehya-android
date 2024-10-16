@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -65,6 +66,7 @@ fun InfoScreen(navController: NavController) {
     modifier =
       Modifier
         .fillMaxSize()
+        .statusBarsPadding()
         .padding(Dimens.PaddingNormal)
   ) {
     Row(

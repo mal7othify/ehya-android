@@ -16,12 +16,15 @@
 package com.eillia.ehya.ui.theme
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalView
+import com.eillia.ehya.ui.utils.handleStatusAndNavigationBars
 
 @SuppressLint("ConflictingOnColor")
 private val DarkColorPalette =
@@ -44,15 +47,16 @@ fun EhyaTheme(
     @Composable()
     () -> Unit
 ) {
-  // Remember a SystemUiController
-  val systemUiController = rememberSystemUiController()
-
-  SideEffect {
-    systemUiController.setNavigationBarColor(
-      color = Color.Transparent,
-      navigationBarContrastEnforced = false,
-      darkIcons = true
-    )
+  val view = LocalView.current
+  if (!view.isInEditMode) {
+    SideEffect {
+      val window = (view.context as Activity).window
+      window.handleStatusAndNavigationBars(
+        view = view,
+        statusBarColor = DarkColorPalette.primary.toArgb(),
+        navigationBarColor = Color.Transparent.toArgb()
+      )
+    }
   }
 
   MaterialTheme(

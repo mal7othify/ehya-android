@@ -20,6 +20,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -46,17 +48,24 @@ import com.ehya.R
 import com.eillia.ehya.navigation.Routes
 
 @Composable
-fun TopBar(navController: NavController) {
+fun TopBar(
+  navController: NavController,
+  modifier: Modifier = Modifier
+) {
   var filtered by remember { mutableStateOf(false) }
   val backStackEntry by navController.currentBackStackEntryAsState()
   val isSunanScreen = backStackEntry?.destination?.route == Routes.Sunan.route
   TopAppBar(
+    modifier =
+      modifier
+        .statusBarsPadding()
+        .wrapContentHeight(),
     backgroundColor = Color.Transparent,
     elevation = 0.dp
   ) {
     Row(
       modifier =
-        Modifier
+        modifier
           .fillMaxWidth()
           .padding(8.dp),
       horizontalArrangement = Arrangement.SpaceBetween,

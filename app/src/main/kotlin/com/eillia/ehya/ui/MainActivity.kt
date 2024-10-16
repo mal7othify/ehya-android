@@ -18,22 +18,16 @@ package com.eillia.ehya.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.LocalRippleConfiguration
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.core.view.WindowCompat
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -46,7 +40,6 @@ import com.eillia.ehya.navigation.Routes
 import com.eillia.ehya.ui.components.BottomBar
 import com.eillia.ehya.ui.components.TopBar
 import com.eillia.ehya.ui.theme.EhyaTheme
-import com.google.accompanist.insets.ProvideWindowInsets
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -54,55 +47,47 @@ class MainActivity : ComponentActivity() {
   @OptIn(ExperimentalMaterialApi::class)
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    WindowCompat.setDecorFitsSystemWindows(window, true)
     installSplashScreen()
+    enableEdgeToEdge()
     setContent {
       EhyaTheme {
-        ProvideWindowInsets {
-          CompositionLocalProvider(
-            LocalLayoutDirection provides LayoutDirection.Rtl,
-            LocalRippleConfiguration provides null
-          ) {
-            Surface(color = MaterialTheme.colors.primary) {
-              val navController = rememberNavController()
-              val backStackEntry by navController.currentBackStackEntryAsState()
-              val isInfoScreen =
-                backStackEntry?.destination?.route == Routes.Info.route
-              val isSplashScreen =
-                backStackEntry?.destination?.route == Routes.Splash.route
-              Scaffold(
-                modifier =
-                  Modifier
-                    .statusBarsPadding()
-                    .navigationBarsPadding(),
-                topBar = {
-                  DrawTopAppBar(
-                    !isInfoScreen && !isSplashScreen,
-                    navController
-                  )
-                },
-                bottomBar = {
-                  if (!isInfoScreen && !isSplashScreen) {
-                    BottomBar(
-                      navController = navController,
-                      items = BottomNavItems,
-                      onItemSelected = { bottomNavItem ->
-                        onBottomBarItemSelected(
-                          backStackEntry,
-                          navController,
-                          bottomNavItem
-                        )
-                      }
+        CompositionLocalProvider(
+          LocalLayoutDirection provides LayoutDirection.Rtl,
+          LocalRippleConfiguration provides null
+        ) {
+          val navController = rememberNavController()
+          val backStackEntry by navController.currentBackStackEntryAsState()
+          val isInfoScreen =
+            backStackEntry?.destination?.route == Routes.Info.route
+          val isSplashScreen =
+            backStackEntry?.destination?.route == Routes.Splash.route
+          Scaffold(
+            topBar = {
+              DrawTopAppBar(
+                !isInfoScreen && !isSplashScreen,
+                navController
+              )
+            },
+            bottomBar = {
+              if (!isInfoScreen && !isSplashScreen) {
+                BottomBar(
+                  navController = navController,
+                  items = BottomNavItems,
+                  onItemSelected = { bottomNavItem ->
+                    onBottomBarItemSelected(
+                      backStackEntry,
+                      navController,
+                      bottomNavItem
                     )
                   }
-                }
-              ) { paddingValues ->
-                Navigation(
-                  navController = navController,
-                  modifier = Modifier.padding(paddingValues)
                 )
               }
             }
+          ) { paddingValues ->
+            Navigation(
+              navController = navController,
+              contentPadding = paddingValues
+            )
           }
         }
       }

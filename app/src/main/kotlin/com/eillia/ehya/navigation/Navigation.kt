@@ -17,8 +17,8 @@ package com.eillia.ehya.navigation
 
 import android.os.Build
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -31,7 +31,7 @@ import com.eillia.ehya.ui.screens.sunan.SunanScreen
 @Composable
 fun Navigation(
   navController: NavHostController,
-  modifier: Modifier = Modifier
+  contentPadding: PaddingValues
 ) {
   val shouldShowSplash = Build.VERSION.SDK_INT <= Build.VERSION_CODES.R
   val startDestination =
@@ -42,16 +42,16 @@ fun Navigation(
     }
   NavHost(navController = navController, startDestination = startDestination) {
     composable(Routes.Splash.route) {
-      SplashScreen(navController)
+      SplashScreen(navController = navController)
     }
     composable(Routes.Play.route) {
-      PlayScreen()
+      PlayScreen(contentPadding = contentPadding)
     }
     composable(Routes.Sunan.route) {
-      SunanScreen()
+      SunanScreen(contentPadding = contentPadding)
     }
     composable(Routes.Info.route) {
-      InfoScreen(navController)
+      InfoScreen(navController = navController)
     }
   }
 }

@@ -17,7 +17,9 @@ package com.eillia.ehya.ui.screens.play
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -37,7 +39,10 @@ import com.eillia.ehya.viewmodels.AppViewModel
 
 @ExperimentalAnimationApi
 @Composable
-fun PlayScreen(appViewModel: AppViewModel = hiltViewModel()) {
+fun PlayScreen(
+  contentPadding: PaddingValues,
+  appViewModel: AppViewModel = hiltViewModel()
+) {
   var onSwipeEvent by remember { mutableStateOf(SwipeEvent()) }
   val sunan by appViewModel.currentSunanSegmentFlow.collectAsState()
   val isLoading by appViewModel.isLoading.collectAsState()
@@ -48,7 +53,13 @@ fun PlayScreen(appViewModel: AppViewModel = hiltViewModel()) {
     }
   }
 
-  Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+  Box(
+    modifier =
+      Modifier
+        .fillMaxSize()
+        .padding(contentPadding),
+    contentAlignment = Alignment.Center
+  ) {
     when {
       isLoading -> {
         CircularProgressIndicator(color = MaterialTheme.colors.secondary)

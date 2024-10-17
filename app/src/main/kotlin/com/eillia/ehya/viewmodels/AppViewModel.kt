@@ -31,136 +31,135 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class AppViewModel
-  @Inject
-  constructor(
-    private val appRepository: RepositoryImpl
-  ) : ViewModel() {
-    val sunanFlow = appRepository.getAllSunanWithCategory()
+class AppViewModel @Inject constructor(
+  private val appRepository: RepositoryImpl
+) : ViewModel() {
+  val sunanFlow = appRepository.getAllSunanWithCategory()
 
-    private val allPlaySunan = mutableListOf<SunnahWithCategory>()
-    private val currentSunanSegment = mutableListOf<SunnahWithCategory>()
-    val currentSunanSegmentFlow = MutableStateFlow(mutableListOf<SunnahWithCategory>())
-    val isLoading = MutableStateFlow(false)
+  private val allPlaySunan = mutableListOf<SunnahWithCategory>()
+  private val remainingSunan = mutableListOf<SunnahWithCategory>()
+  private val currentSunanSegment = mutableListOf<SunnahWithCategory>()
+  val currentSunanSegmentFlow = MutableStateFlow(mutableListOf<SunnahWithCategory>())
+  val isLoading = MutableStateFlow(false)
 
-    init {
-      viewModelScope.launch {
-        getAllPlaySunan()
-      }
+  init {
+    viewModelScope.launch {
+      getAllPlaySunan()
     }
-
-    private fun getAllPlaySunan() =
-      viewModelScope.launch {
-        isLoading.emit(true)
-        sunanFlow.collect {
-          // TODO: Enhance the Flow collection method below
-          if (it.isNotEmpty() && allPlaySunan.isEmpty()) {
-            allPlaySunan.addAll(it)
-            getCurrentSunanSegment()
-          } else if (it.isEmpty() && allPlaySunan.isEmpty()) {
-            allPlaySunan.addAll(emptyList())
-            handleEmptyState()
-          }
-        }
-      }
-
-    private fun getCurrentSunanSegment() =
-      viewModelScope.launch {
-        currentSunanSegment.clear()
-        val takeLastSegmentOfOriginal = allPlaySunan.takeLast(SUNAN_PER_ROUND)
-        currentSunanSegment.addAll(takeLastSegmentOfOriginal)
-        if (currentSunanSegment.isNotEmpty()) {
-          allPlaySunan.removeAll(currentSunanSegment)
-          val ids = arrayListOf<Int>()
-          allPlaySunan.forEach {
-            ids.add(it.sunnah.id)
-          }
-          val shuffledSunan = shuffleSunan(currentSunanSegment)
-          isLoading.emit(false)
-          currentSunanSegmentFlow.emit(shuffledSunan.toMutableList())
-        } else {
-          handleEmptyState()
-        }
-      }
-
-    fun onSwipe(
-      swipeResult: SwipeResult,
-      sunnah: SunnahWithCategory
-    ) =
-      viewModelScope.launch {
-        val isTried = swipeResult == SwipeResult.TRY
-        val isPassed = swipeResult == SwipeResult.PASS
-        updateInteractions(sunnah, swipeResult, isTried, isPassed)
-
-        currentSunanSegment.remove(sunnah)
-        if (currentSunanSegment.size > 0) {
-          val shuffledSunan = shuffleSunan(currentSunanSegment)
-          currentSunanSegmentFlow.emit(shuffledSunan.toMutableList())
-        } else {
-          getCurrentSunanSegment()
-        }
-      }
-
-    private fun updateInteractions(
-      sunnah: SunnahWithCategory,
-      swipeResult: SwipeResult,
-      isTried: Boolean,
-      isPassed: Boolean
-    ) = viewModelScope.launch {
-      val interaction =
-        Interaction(
-          sunnahId = sunnah.sunnah.id,
-          isTried = isTried,
-          isPassed = isPassed
-        )
-      appRepository.insertInteraction(interaction)
-      appRepository.updateSunnah(sunnah.sunnah.copy(swipeResult = swipeResult))
-    }
-
-    private fun handleEmptyState() =
-      viewModelScope.launch {
-        isLoading.emit(false)
-        currentSunanSegmentFlow.emit(mutableListOf())
-      }
-
-    fun playAgain() =
-      viewModelScope.launch {
-        allPlaySunan.forEach { sunnah ->
-          appRepository.updateSunnah(sunnah.sunnah.copy(swipeResult = SwipeResult.NONE))
-        }
-        allPlaySunan.clear()
-        getAllPlaySunan()
-      }
-
-    private fun shuffleSunan(sunan: List<SunnahWithCategory>): List<SunnahWithCategory> = sunan.shuffled()
-
-    private fun allTriedSunan() =
-      flow {
-        emit(
-          appRepository
-            .getAllSwipedSunan(SwipeResult.TRY)
-            .map { it.title }
-            .sorted()
-        )
-      }.flowOn((Dispatchers.IO))
-
-    private fun allPassedSunan() =
-      flow {
-        emit(
-          appRepository
-            .getAllSwipedSunan(SwipeResult.PASS)
-            .map { it.title }
-            .sorted()
-        )
-      }.flowOn((Dispatchers.IO))
-
-    private fun allTriedSunanCount() =
-      flow {
-        emit(appRepository.getAllSwipedSunan(SwipeResult.TRY))
-      }.flowOn((Dispatchers.IO))
-
-    private fun allPassedSunanCount() =
-      flow {
-        emit(appRepository.getAllSwipedSunan(SwipeResult.PASS))
-      }.flowOn((Dispatchers.IO))
   }
+
+  private fun getAllPlaySunan() = viewModelScope.launch {
+    isLoading.emit(true)
+    sunanFlow.collect { sunanList ->
+      if (sunanList.isNotEmpty() && allPlaySunan.isEmpty()) {
+        allPlaySunan.addAll(sunanList)
+        remainingSunan.addAll(sunanList) // Keep track of remaining
+        getNextSunanSegment()
+      } else if (sunanList.isEmpty()) {
+        handleEmptyState()
+      }
+    }
+  }
+
+  private fun getNextSunanSegment() = viewModelScope.launch {
+    currentSunanSegment.clear()
+
+    if (remainingSunan.isEmpty()) {
+      // Refill from the original list if needed
+      remainingSunan.addAll(allPlaySunan)
+    }
+
+    // Take the next batch of SUNAN_PER_ROUND
+    val nextSegment = remainingSunan.take(SUNAN_PER_ROUND)
+    currentSunanSegment.addAll(nextSegment)
+    remainingSunan.removeAll(nextSegment)
+
+    if (currentSunanSegment.isNotEmpty()) {
+      val shuffledSunan = shuffleSunan(currentSunanSegment)
+      currentSunanSegmentFlow.emit(shuffledSunan.toMutableList())
+      isLoading.emit(false)
+    } else {
+      handleEmptyState()
+    }
+  }
+
+  fun onSwipe(swipeResult: SwipeResult, sunnah: SunnahWithCategory) = viewModelScope.launch {
+    val isTried = swipeResult == SwipeResult.TRY
+    val isPassed = swipeResult == SwipeResult.PASS
+    updateInteractions(sunnah, swipeResult, isTried, isPassed)
+
+    currentSunanSegment.remove(sunnah)
+
+    if (currentSunanSegment.isEmpty()) {
+      // When the current segment is empty, fetch the next segment
+      getNextSunanSegment()
+    } else {
+      // Shuffle and emit the remaining items in the current segment
+      val shuffledSunan = shuffleSunan(currentSunanSegment)
+      currentSunanSegmentFlow.emit(shuffledSunan.toMutableList())
+    }
+  }
+
+
+  private fun updateInteractions(
+    sunnah: SunnahWithCategory,
+    swipeResult: SwipeResult,
+    isTried: Boolean,
+    isPassed: Boolean
+  ) = viewModelScope.launch {
+    val interaction = Interaction(
+      sunnahId = sunnah.sunnah.id,
+      isTried = isTried,
+      isPassed = isPassed
+    )
+    appRepository.insertInteraction(interaction)
+    appRepository.updateSunnah(sunnah.sunnah.copy(swipeResult = swipeResult))
+  }
+
+  private fun handleEmptyState() = viewModelScope.launch {
+    isLoading.emit(false)
+    currentSunanSegmentFlow.emit(mutableListOf())
+  }
+
+  fun playAgain() = viewModelScope.launch {
+    // Reset the state for playing again
+    allPlaySunan.forEach { sunnah ->
+      appRepository.updateSunnah(sunnah.sunnah.copy(swipeResult = SwipeResult.NONE))
+    }
+    remainingSunan.clear()
+    remainingSunan.addAll(allPlaySunan)
+    getNextSunanSegment()
+  }
+
+  private fun shuffleSunan(sunan: List<SunnahWithCategory>): List<SunnahWithCategory> = sunan.shuffled()
+
+  private fun allTriedSunan() =
+    flow {
+      emit(
+        appRepository
+          .getAllSwipedSunan(SwipeResult.TRY)
+          .map { it.title }
+          .sorted()
+      )
+    }.flowOn((Dispatchers.IO))
+
+  private fun allPassedSunan() =
+    flow {
+      emit(
+        appRepository
+          .getAllSwipedSunan(SwipeResult.PASS)
+          .map { it.title }
+          .sorted()
+      )
+    }.flowOn((Dispatchers.IO))
+
+  private fun allTriedSunanCount() =
+    flow {
+      emit(appRepository.getAllSwipedSunan(SwipeResult.TRY))
+    }.flowOn((Dispatchers.IO))
+
+  private fun allPassedSunanCount() =
+    flow {
+      emit(appRepository.getAllSwipedSunan(SwipeResult.PASS))
+    }.flowOn((Dispatchers.IO))
+}

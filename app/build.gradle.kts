@@ -42,8 +42,8 @@ android {
     applicationId = "com.eillia.ehya"
     minSdk = 24
     targetSdk = 35
-    versionCode = 34
-    versionName = "2.1.7"
+    versionCode = 35
+    versionName = "2.1.8"
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     vectorDrawables {

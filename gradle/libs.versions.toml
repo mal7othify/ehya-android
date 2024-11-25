@@ -2,7 +2,7 @@
 accompanist = "0.34.0"
 accompanistInsets = "0.30.1"
 # AGP and tools should be updated together
-androidGradlePlugin = "8.5.2"
+androidGradlePlugin = "8.7.2"
 androidTools = "31.7.2"
 androidxActivity = "1.9.3"
 androidxAppCompat = "1.7.0"

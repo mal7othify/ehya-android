@@ -18,7 +18,7 @@ package com.eillia.ehya.ui.theme
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.shape.ZeroCornerSize
-import androidx.compose.material.Shapes
+import androidx.compose.material3.Shapes
 import androidx.compose.ui.unit.dp
 
 val shapes =
@@ -43,3 +43,5 @@ val SunnahCardShape =
     bottomStart = ZeroCornerSize,
     bottomEnd = CornerSize(20.dp)
   )
+
+val OutlinedButtonShape = RoundedCornerShape(15.dp)

@@ -34,16 +34,16 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.MaterialTheme.typography
-import androidx.compose.material.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.typography
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ExpandLess
-import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ArrowForward
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -99,19 +99,24 @@ fun CardContent(
                 ),
               endY = (LocalConfiguration.current.screenHeightDp.dp.value / 2)
             )
-        ).padding(16.dp)
+        )
+        .padding(16.dp)
         .padding(bottom = 30.dp)
         .verticalScroll(scrollState)
   ) {
     Text(
       text = sunnah.sunnah.title,
       modifier = Modifier.fillMaxWidth(),
-      style = typography.h1
+      style = typography.headlineSmall.copy(
+        color = MaterialTheme.colorScheme.onSurface,
+      )
     )
     Text(
       text = sunnah.sunnah.quantity ?: "",
       modifier = Modifier.fillMaxWidth(),
-      style = typography.caption,
+      style = typography.labelSmall.copy(
+        color = MaterialTheme.colorScheme.onSurface,
+      ),
       textAlign = TextAlign.Center
     )
     Image(
@@ -126,15 +131,18 @@ fun CardContent(
     Text(
       text = sunnah.category.title,
       style =
-        typography.body2.copy(
-          background = MaterialTheme.colors.secondary
+        typography.bodyMedium.copy(
+          background = MaterialTheme.colorScheme.secondary,
+          color = MaterialTheme.colorScheme.onSurface,
         )
     )
     Text(
       text = sunnah.sunnah.hadith,
       modifier = Modifier.fillMaxWidth(),
       lineHeight = 1.25.em,
-      style = typography.body1
+      style = typography.bodyMedium.copy(
+        color = MaterialTheme.colorScheme.onSurface,
+      )
     )
     Text(
       text = sunnah.sunnah.strength,
@@ -143,7 +151,10 @@ fun CardContent(
           .fillMaxWidth()
           .wrapContentHeight(),
       lineHeight = 1.25.em,
-      style = typography.caption.copy(fontSize = 12.sp)
+      style = typography.labelSmall.copy(
+        fontSize = 12.sp,
+        color = MaterialTheme.colorScheme.onSurface,
+      )
     )
     Column(
       modifier =
@@ -155,12 +166,16 @@ fun CardContent(
             onClick = {
               expandedState = !expandedState
             }
-          ).padding(8.dp)
+          )
+          .padding(8.dp)
     ) {
       Text(
         modifier = Modifier.fillMaxWidth(),
         text = stringResource(id = com.ehya.R.string.howto),
-        style = typography.body1.copy(fontWeight = FontWeight.Bold),
+        style = typography.bodyMedium.copy(
+          fontWeight = FontWeight.Bold,
+          color = MaterialTheme.colorScheme.onSurface,
+        ),
         textAlign = TextAlign.Center
       )
       Image(
@@ -175,7 +190,7 @@ fun CardContent(
             Icons.Filled.ExpandMore
           },
         contentDescription = null,
-        colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface)
+        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
       )
       AnimatedVisibility(
         visible = expandedState,
@@ -185,7 +200,9 @@ fun CardContent(
         Text(
           modifier = Modifier.wrapContentSize(),
           text = sunnah.sunnah.howto,
-          style = typography.caption,
+          style = typography.labelSmall.copy(
+            color = MaterialTheme.colorScheme.onSurface,
+          ),
           lineHeight = 1.em
         )
       }
@@ -204,7 +221,7 @@ fun CardContent(
             .align(Alignment.CenterStart)
       ) {
         FloatMultiStateAnimationCircleCanvas(
-          MaterialTheme.colors.secondary,
+          MaterialTheme.colorScheme.secondary,
           100f
         )
         Icon(
@@ -242,7 +259,7 @@ fun CardContent(
             .align(Alignment.CenterEnd)
       ) {
         FloatMultiStateAnimationCircleCanvas(
-          MaterialTheme.colors.secondary,
+          MaterialTheme.colorScheme.secondary,
           100f
         )
         Icon(

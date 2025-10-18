@@ -16,7 +16,7 @@
 package com.eillia.ehya.navigation
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.List
+import androidx.compose.material.icons.rounded.List
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -32,5 +32,5 @@ sealed class Routes(
 
   object Info : Routes(route = "info", icon = Icons.Rounded.Info, name = "ملعومات")
 
-  object Sunan : Routes(route = "sunan", icon = Icons.AutoMirrored.Rounded.List, name = "السنن")
+  object Sunan : Routes(route = "sunan", icon = Icons.Rounded.List, name = "السنن")
 }

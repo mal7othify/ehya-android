@@ -15,7 +15,7 @@
  */
 package com.eillia.ehya.ui.theme
 
-import androidx.compose.material.Typography
+import androidx.compose.material3.Typography
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -37,39 +37,39 @@ private val Tajawal =
 // Set of Material typography styles to start with
 val typography =
   Typography(
-    h1 =
+    headlineSmall =
       TextStyle(
         fontFamily = Tajawal,
         fontWeight = FontWeight.W300,
         textAlign = TextAlign.Center,
         fontSize = 18.sp
       ),
-    h2 =
+    headlineMedium =
       TextStyle(
         fontFamily = Tajawal,
         fontWeight = FontWeight.W500,
         fontSize = 14.sp
       ),
-    body1 =
+    bodyMedium =
       TextStyle(
         fontFamily = Tajawal,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         textAlign = TextAlign.Justify
       ),
-    body2 =
+    bodyLarge =
       TextStyle(
         color = Color.DarkGray,
         fontSize = 22.sp,
         fontFamily = FontFamily(listOf(Font(R.font.arslan_wessam)))
       ),
-    button =
+    labelMedium =
       TextStyle(
         fontFamily = Tajawal,
         fontWeight = FontWeight.W500,
         fontSize = 14.sp
       ),
-    caption =
+    labelSmall =
       TextStyle(
         fontFamily = Tajawal,
         fontWeight = FontWeight.Normal,

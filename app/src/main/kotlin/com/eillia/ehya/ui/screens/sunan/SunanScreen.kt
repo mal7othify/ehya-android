@@ -15,12 +15,13 @@
  */
 package com.eillia.ehya.ui.screens.sunan
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -28,8 +29,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.lazy.items
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.eillia.ehya.ui.components.SearchOutlinedTextField
+import com.eillia.ehya.ui.utils.Dimens
 import com.eillia.ehya.viewmodels.AppViewModel
 
 @Composable
@@ -37,31 +42,73 @@ fun SunanScreen(
   contentPadding: PaddingValues,
   appViewModel: AppViewModel = hiltViewModel()
 ) {
-  val sunan by appViewModel.sunanFlow.collectAsStateWithLifecycle(listOf())
+  val allSunan by appViewModel.sunanFlow.collectAsStateWithLifecycle(listOf())
+  val filteredSunan by appViewModel.filteredSunanFlow.collectAsStateWithLifecycle(listOf())
+  val searchQuery by appViewModel.searchQuery.collectAsStateWithLifecycle()
   val listState = rememberLazyListState()
 
-  if (sunan.isNotEmpty()) {
-    LazyColumn(
-      state = listState,
-      modifier =
-        Modifier
-          .fillMaxWidth(),
-      contentPadding = contentPadding
-    ) {
-      items(sunan) { sunnah ->
-        SunnahCard(
-          sunnah.sunnah.title,
-          sunnah.sunnah.quantity ?: "",
-          sunnah.sunnah.hadith
-        )
-      }
-    }
-  } else {
+  val showSearchField = listState.firstVisibleItemIndex == 0
+
+  if (allSunan.isEmpty()) {
     Box(
-      Modifier.fillMaxSize(),
+      Modifier
+        .fillMaxSize()
+        .padding(contentPadding),
       contentAlignment = Alignment.Center
     ) {
-      Text(text = "لا يوجد سنن متاحة", style = MaterialTheme.typography.body1)
+      Text(
+        text = "لا يوجد سنن متاحة",
+        style = MaterialTheme.typography.body1
+      )
+    }
+  } else {
+    Box(modifier = Modifier.fillMaxSize()) {
+      LazyColumn(
+        state = listState,
+        modifier = Modifier.fillMaxWidth(),
+        contentPadding = contentPadding
+      ) {
+        item {
+          // Search Bar - always shown as first item
+          AnimatedVisibility(visible = showSearchField) {
+            Column(Modifier.fillMaxWidth()) {
+              SearchOutlinedTextField(
+                searchQuery = searchQuery,
+                onValueChange = { appViewModel.updateSearchQuery(it) },
+                onCleanSearch = { appViewModel.updateSearchQuery("") }
+              )
+            }
+          }
+        }
+
+        // Show sunan items or empty search message
+        if (filteredSunan.isNotEmpty()) {
+          items(filteredSunan) { sunnah ->
+            SunnahCard(
+              sunnah.sunnah.title,
+              sunnah.sunnah.quantity ?: "",
+              sunnah.sunnah.hadith
+            )
+          }
+        } else if (searchQuery.isNotBlank()) {
+          // Show empty search message when search has no matches
+          item {
+            Box(
+              modifier = Modifier
+                .fillMaxWidth()
+                .padding(Dimens.PaddingLarge),
+              contentAlignment = Alignment.Center
+            ) {
+              AnimatedVisibility(visible = true) {
+                Text(
+                  text = "لا توجد نتائج للبحث",
+                  style = MaterialTheme.typography.body1
+                )
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

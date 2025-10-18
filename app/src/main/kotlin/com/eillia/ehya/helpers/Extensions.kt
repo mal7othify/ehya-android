@@ -45,3 +45,13 @@ fun Context.setupPackage(): PackageInfo {
   }
   return pkgInfo!!
 }
+
+/**
+ * Removes Arabic diacritics (tashkeel) from a string to enable searching text
+ * regardless of vowel marks.
+ *
+ * Arabic diacritics include: ً ٌ ٍ َ ُ ِ ّ ْ ٓ ٰ ٔ ٕ
+ */
+fun String.removeDiacritics(): String {
+  return this.replace(Regex("[\u064B-\u065F\u0670]"), "")
+}

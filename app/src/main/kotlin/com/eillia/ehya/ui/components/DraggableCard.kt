@@ -48,6 +48,7 @@ fun DraggableCard(
   item: SunnahWithCategory,
   modifier: Modifier = Modifier,
   onSwiped: (SwipeResult, SunnahWithCategory) -> Unit,
+  buttonSwipe: SwipeResult? = null,
   content: @Composable () -> Unit
 ) {
   val configuration = LocalConfiguration.current
@@ -61,6 +62,14 @@ fun DraggableCard(
   val swipeY = remember { Animatable(0f) }
   swipeX.updateBounds(swipeXLeft, swipeXRight)
   swipeY.updateBounds(swipeYTop, swipeYBottom)
+
+  // Handle programmatic swipes triggered by button clicks
+  LaunchedEffect(buttonSwipe) {
+    buttonSwipe?.let { swipeResult ->
+      val targetX = if (swipeResult == SwipeResult.TRY) swipeXRight else swipeXLeft
+      swipeX.animateTo(targetX, tween(400))
+    }
+  }
   val rotationFraction = (swipeX.value / 60).coerceIn(-40f, 40f)
   val graphicLayer =
     Modifier.graphicsLayer(

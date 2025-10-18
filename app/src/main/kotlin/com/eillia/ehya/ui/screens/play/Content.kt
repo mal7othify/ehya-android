@@ -24,6 +24,10 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -42,6 +46,8 @@ fun Content(
   onSwipe: (SwipeResult, SunnahWithCategory) -> Unit,
   playAgain: () -> Unit
 ) {
+  var buttonSwipeTrigger by remember { mutableStateOf<SwipeResult?>(null) }
+
   Box(
     modifier = Modifier.fillMaxSize(),
     contentAlignment = Alignment.Center
@@ -53,6 +59,7 @@ fun Content(
       Text(text = stringResource(id = R.string.playagain))
     }
     sunan.forEachIndexed { index, sunnah ->
+      val isTopCard = index == sunan.lastIndex
       DraggableCard(
         item = sunnah,
         modifier =
@@ -61,18 +68,27 @@ fun Content(
               start = 16.dp,
               top = 16.dp + (index).dp,
               end = 16.dp
-            ).align(Alignment.BottomCenter)
+            )
+            .align(Alignment.BottomCenter)
             .fillMaxSize(),
         onSwiped = { swipeResult: SwipeResult, sunnah ->
           if (sunan.isNotEmpty()) {
             onSwipe(swipeResult, sunnah)
           }
-        }
+          buttonSwipeTrigger = null
+        },
+        buttonSwipe = if (isTopCard) buttonSwipeTrigger else null
       ) {
         CardContent(
           sunnah,
-          trySunnah = { trySunnah(it) },
-          passSunnah = { passSunnah(it) }
+          trySunnah = {
+            buttonSwipeTrigger = SwipeResult.TRY
+            trySunnah(it)
+          },
+          passSunnah = {
+            buttonSwipeTrigger = SwipeResult.PASS
+            passSunnah(it)
+          }
         )
       }
     }

@@ -18,6 +18,7 @@ package com.eillia.ehya.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.eillia.ehya.helpers.SUNAN_PER_ROUND
+import com.eillia.ehya.helpers.removeDiacritics
 import com.eillia.ehya.model.data.entity.Interaction
 import com.eillia.ehya.model.data.entity.SunnahWithCategory
 import com.eillia.ehya.model.data.item.SwipeResult
@@ -26,6 +27,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
@@ -41,6 +44,22 @@ class AppViewModel @Inject constructor(
   private val currentSunanSegment = mutableListOf<SunnahWithCategory>()
   val currentSunanSegmentFlow = MutableStateFlow(mutableListOf<SunnahWithCategory>())
   val isLoading = MutableStateFlow(false)
+
+  private val _searchQuery = MutableStateFlow("")
+  val searchQuery: StateFlow<String> = _searchQuery
+
+  val filteredSunanFlow = combine(sunanFlow, _searchQuery) { sunanList, query ->
+    if (query.isBlank()) {
+      sunanList
+    } else {
+      val normalizedQuery = query.removeDiacritics()
+      sunanList.filter { sunnahWithCategory ->
+        sunnahWithCategory.sunnah.title.removeDiacritics().contains(normalizedQuery, ignoreCase = true) ||
+          sunnahWithCategory.sunnah.hadith.removeDiacritics().contains(normalizedQuery, ignoreCase = true) ||
+          sunnahWithCategory.category.title.removeDiacritics().contains(normalizedQuery, ignoreCase = true)
+      }
+    }
+  }
 
   init {
     viewModelScope.launch {
@@ -132,6 +151,10 @@ class AppViewModel @Inject constructor(
   }
 
   private fun shuffleSunan(sunan: List<SunnahWithCategory>): List<SunnahWithCategory> = sunan.shuffled()
+
+  fun updateSearchQuery(query: String) {
+    _searchQuery.value = query
+  }
 
   private fun allTriedSunan() =
     flow {

@@ -15,7 +15,9 @@
  */
 package com.eillia.ehya.ui.screens.sunan
 
+import android.R.attr.text
 import android.content.Intent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,13 +26,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Share
+import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -62,7 +65,7 @@ fun SunnahCard(
         .wrapContentHeight()
         .background(Color.Transparent),
     shape = SunnahCardShape,
-    elevation = 5.dp
+    elevation = CardDefaults.cardElevation(5.dp)
   ) {
     Column(
       modifier =
@@ -77,7 +80,8 @@ fun SunnahCard(
                   ),
                 endX = (LocalConfiguration.current.screenHeightDp.dp.value / 0.2f)
               )
-          ).padding(Dimens.PaddingNormal)
+          )
+          .padding(Dimens.PaddingNormal)
     ) {
       Row(
         modifier = Modifier.fillMaxWidth(),
@@ -87,7 +91,7 @@ fun SunnahCard(
         Text(
           title,
           style =
-            MaterialTheme.typography.h1.copy(
+            MaterialTheme.typography.headlineSmall.copy(
               fontWeight = FontWeight.Bold,
               color = mauve,
               fontSize = 16.sp,
@@ -109,25 +113,32 @@ fun SunnahCard(
           Icon(
             modifier = Modifier.size(20.dp),
             imageVector = Icons.Rounded.Share,
-            tint = MaterialTheme.colors.secondary,
+            tint = MaterialTheme.colorScheme.secondary,
             contentDescription = "مشاركة السنة"
           )
         }
       }
 
-      if (quantity != "") {
+      AnimatedVisibility(quantity != "") {
         Text(
           text = quantity,
-          modifier = Modifier.fillMaxWidth(),
+          modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 4.dp),
           style =
-            MaterialTheme.typography.caption.copy(
+            MaterialTheme.typography.labelSmall.copy(
               textAlign = TextAlign.Center,
               fontWeight = FontWeight.Bold,
               lineHeight = 1.30.em
             )
         )
       }
-      Text(hadith, style = MaterialTheme.typography.body1, lineHeight = 1.25.em)
+
+      Text(
+        text = hadith,
+        style = MaterialTheme.typography.bodyMedium,
+        lineHeight = 1.25.em
+      )
     }
   }
 }

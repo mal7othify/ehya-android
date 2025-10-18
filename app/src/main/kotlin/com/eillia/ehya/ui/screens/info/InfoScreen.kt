@@ -32,10 +32,10 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Share
@@ -84,7 +84,7 @@ fun InfoScreen(navController: NavController) {
               navController.navigateUp()
             },
         imageVector = Icons.Rounded.ArrowBack,
-        tint = MaterialTheme.colors.secondary,
+        tint = MaterialTheme.colorScheme.secondary,
         contentDescription = "Filter sunan"
       )
     }
@@ -99,9 +99,9 @@ fun InfoScreen(navController: NavController) {
       Text(
         stringResource(id = R.string.app_name),
         style =
-          MaterialTheme.typography.h1.copy(
+          MaterialTheme.typography.headlineSmall.copy(
             fontSize = 20.sp,
-            color = MaterialTheme.colors.onPrimary,
+            color = MaterialTheme.colorScheme.onPrimary,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold
           )
@@ -117,13 +117,13 @@ fun InfoScreen(navController: NavController) {
             .fillMaxWidth()
             .padding(Dimens.PaddingNormal),
         text = stringResource(id = R.string.play),
-        style = MaterialTheme.typography.body1.copy(fontWeight = FontWeight.Bold),
+        style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
         textAlign = TextAlign.Center
       )
       Text(
         modifier = Modifier.padding(Dimens.PaddingNormal),
         text = stringResource(id = R.string.playsteps),
-        style = MaterialTheme.typography.body1,
+        style = MaterialTheme.typography.bodyMedium,
         lineHeight = 1.9.em
       )
       Spacer(modifier = Modifier.requiredHeight(30.dp))
@@ -134,7 +134,7 @@ fun InfoScreen(navController: NavController) {
       ) {
         Text(
           "شارك/ـي التطبيق مع أصدقائك ومعارفك",
-          style = MaterialTheme.typography.body1.copy(fontWeight = FontWeight.Bold)
+          style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold)
         )
         IconButton(
           onClick = {
@@ -144,13 +144,16 @@ fun InfoScreen(navController: NavController) {
           Icon(
             modifier = Modifier.size(20.dp),
             imageVector = Icons.Rounded.Share,
-            tint = MaterialTheme.colors.secondary,
+            tint = MaterialTheme.colorScheme.secondary,
             contentDescription = "مشاركة التطبيق"
           )
         }
       }
       Spacer(modifier = Modifier.requiredHeight(30.dp))
-      Text(text = "إصدار البرنامج: ${packageInfo.versionName}")
+      Text(
+        text = "إصدار البرنامج: ${packageInfo.versionName}",
+        color = MaterialTheme.colorScheme.surface,
+      )
     }
   }
 }

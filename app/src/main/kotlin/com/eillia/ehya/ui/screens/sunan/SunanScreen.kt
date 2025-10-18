@@ -23,8 +23,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -58,7 +58,7 @@ fun SunanScreen(
     ) {
       Text(
         text = "لا يوجد سنن متاحة",
-        style = MaterialTheme.typography.body1
+        style = MaterialTheme.typography.bodyMedium
       )
     }
   } else {
@@ -102,7 +102,7 @@ fun SunanScreen(
               AnimatedVisibility(visible = true) {
                 Text(
                   text = "لا توجد نتائج للبحث",
-                  style = MaterialTheme.typography.body1
+                  style = MaterialTheme.typography.bodyMedium
                 )
               }
             }

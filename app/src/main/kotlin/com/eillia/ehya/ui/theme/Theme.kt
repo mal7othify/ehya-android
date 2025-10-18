@@ -17,8 +17,8 @@ package com.eillia.ehya.ui.theme
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.darkColors
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
@@ -27,25 +27,25 @@ import androidx.compose.ui.platform.LocalView
 import com.eillia.ehya.ui.utils.handleStatusAndNavigationBars
 
 @SuppressLint("ConflictingOnColor")
-private val DarkColorPalette =
-  darkColors(
-    primary = blackOlive,
-    primaryVariant = blackish,
-    secondary = yellowL,
-    background = blackOlive,
-    surface = gainsboro,
-    onPrimary = gainsboro,
-    onSecondary = blackOlive,
-    onBackground = blackOlive,
-    onSurface = blackOlive,
-    onError = gainsboro
-  )
+private val DarkColorPalette = darkColorScheme(
+  primary = blackOlive,
+  primaryContainer = blackish,
+  secondary = yellowL,
+  background = blackOlive,
+  surface = gainsboro,
+  onPrimary = gainsboro,
+  onSecondary = blackOlive,
+  onBackground = blackOlive,
+  onSurface = blackOlive,
+  onError = gainsboro
+)
+
 
 @Composable
 fun EhyaTheme(
   content:
-    @Composable()
-    () -> Unit
+  @Composable()
+  () -> Unit
 ) {
   val view = LocalView.current
   if (!view.isInEditMode) {
@@ -60,7 +60,7 @@ fun EhyaTheme(
   }
 
   MaterialTheme(
-    colors = DarkColorPalette,
+    colorScheme = DarkColorPalette,
     typography = typography,
     shapes = shapes,
     content = content
